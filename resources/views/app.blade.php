@@ -16,7 +16,7 @@
     @inertiaHead
 </head>
 
-<body class="font-roboto antialiased bg-blue-50 text-[#1f295a]">
+<body class="font-roboto antialiased bg-blue-50 text-[#1f295a] min-h-screen">
     @inertia
 
     <script></script>

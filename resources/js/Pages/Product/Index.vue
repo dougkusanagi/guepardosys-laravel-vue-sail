@@ -58,7 +58,7 @@
 
 					<input
 						type="search"
-						class="w-full block font-medium text-sm text-slate-500 border border-slate-300 focus:ring-indigo-600 focus:border-indigo-600 rounded-lg pl-10"
+						class="w-full h-12 block font-medium text-sm text-slate-500 border border-slate-300 focus:ring-indigo-600 focus:border-indigo-600 rounded-lg pl-10"
 						placeholder="Nome do produto"
 						v-model="queryParams.search"
 					/>

@@ -79,7 +79,9 @@
 						</div>
 
 						<div class="w-full md:w-1/2 mb-4">
-							<input-group />
+							<input-group
+								label="teste"
+							/>
 						</div>
 					</div>
 				</div>
