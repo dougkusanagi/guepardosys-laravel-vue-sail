@@ -45,8 +45,6 @@
 				<div id="info" class="bg-white rounded-lg p-4 mb-6">
 					<h2 class="text-xl font-bold mb-6">Informações</h2>
 
-					<button class="btn">Button</button>
-
 					<div class="md:flex mb-6 md:space-x-4">
 						<div class="w-full md:w-1/2 mb-4">
 							<input-text
