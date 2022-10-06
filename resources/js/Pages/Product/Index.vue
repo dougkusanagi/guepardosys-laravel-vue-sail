@@ -59,27 +59,30 @@
 					<input
 						type="search"
 						class="w-full h-12 block font-medium text-sm text-slate-500 border border-slate-300 focus:ring-indigo-600 focus:border-indigo-600 rounded-lg pl-10"
-						placeholder="Nome do produto"
+						placeholder="Pesquisar nome do produto"
 						v-model="queryParams.search"
+						autofocus
 					/>
 				</div>
 
 				<div class="w-1/3">
-					<Combobox
-						:option-list="people"
-					/>
+					<!-- <Combobox :option-list="categoriesAll">
+						Escolha uma Categoria
+					</Combobox> -->
 
-					<!-- <select
-						class="w-full font-medium text-sm text-slate-600 border border-slate-300 focus:ring-blue-500 focus:border-blue-500 rounded-lg border-none"
+					<select
+						class="select select-bordered w-full"
+						v-model="queryParams.category"
 					>
-						<option>Selecione uma categoria</option>
-						<option value="">Categoria 1</option>
-						<option value="">Categoria 2</option>
-					</select> -->
+						<option selected value="">Todas as Categoria</option>
+						<option v-for="category in categoriesAll" :value="category.id">
+							{{ category.name }}
+						</option>
+					</select>
 				</div>
 
-				<span class="flex-1 ml text-[#969bba]">
-					filtrados: {{ products.total }}
+				<span class="flex-1 ml text-[#969bba] text-center">
+					{{ products.total }} encontrados
 				</span>
 			</div>
 
@@ -153,7 +156,7 @@
 
 					<div class="flex flex-col flex-1 justify-center">
 						<h3 class="text-xs text-slate-400">
-							{{ product.category }}
+							{{ product.category.name }}
 						</h3>
 
 						<h2 class="text-lg font-bold">{{ product.name }}</h2>
@@ -189,7 +192,7 @@
 
 <script setup>
 import { Inertia } from "@inertiajs/inertia";
-import { reactive, watch  } from "vue";
+import { reactive, watch } from "vue";
 import Plus from "@/Icons/Plus.vue";
 import ArrowUp from "@/Icons/ArrowUp.vue";
 import MagnifyingGlass from "@/Icons/MagnifyingGlass.vue";
@@ -200,16 +203,8 @@ import Combobox from "@/Components/Combobox.vue";
 defineProps({
 	products: Object,
 	countProducts: Array,
+	categoriesAll: Array,
 });
-
-const people = [
-	{ id: 1, name: "Wade Cooper" },
-	{ id: 2, name: "Arlene Mccoy" },
-	{ id: 3, name: "Devon Webb" },
-	{ id: 4, name: "Tom Cook" },
-	{ id: 5, name: "Tanya Fox" },
-	{ id: 6, name: "Hellen Schmidt" },
-];
 
 const breadcrumbs = [
 	{
@@ -234,6 +229,7 @@ const queryParams = reactive({
 	orderByField: "name",
 	direction: "asc",
 	status: "",
+	category: "",
 });
 
 watch(

@@ -12,7 +12,7 @@
 				<ComboboxButton
 					class="absolute inset-y-0 right-0 flex items-center pr-2"
 				>
-					<MagnifyingGlass
+					<ChevronUpDown
 						class="h-5 w-5 text-gray-400"
 						aria-hidden="true"
 					/>
@@ -34,6 +34,22 @@
 						Nothing found.
 					</div>
 
+					<ComboboxOption>
+						<li
+							class="relative cursor-default select-none py-2 pl-10 pr-4"
+						>
+							<span
+								class="block truncate"
+								:class="{
+									'font-bold': selected,
+									'font-normal': !selected,
+								}"
+							>
+								<slot />
+							</span>
+						</li>
+					</ComboboxOption>
+
 					<ComboboxOption
 						v-for="option in filteredOptionList"
 						as="template"
@@ -45,7 +61,7 @@
 							class="relative cursor-default select-none py-2 pl-10 pr-4"
 							:class="{
 								'bg-indigo-600 text-white': active,
-								'text-slate-600': !active,
+								'bg-white text-slate-600': !active,
 							}"
 						>
 							<span
@@ -65,7 +81,7 @@
 									'text-indigo-600': !active,
 								}"
 							>
-								<MagnifyingGlass class="h-5 w-5" aria-hidden="true" />
+								<Check class="h-5 w-5" aria-hidden="true" />
 							</span>
 						</li>
 					</ComboboxOption>
@@ -87,6 +103,8 @@ import {
 } from "@headlessui/vue";
 // import { CheckIcon, ChevronUpDownIcon } from "@heroicons/vue/20/solid";
 import MagnifyingGlass from "@/Icons/MagnifyingGlass.vue";
+import ChevronUpDown from "@/Icons/ChevronUpDown.vue";
+import Check from "@/Icons/Check.vue";
 
 const props = defineProps({ optionList: Object });
 

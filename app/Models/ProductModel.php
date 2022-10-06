@@ -13,7 +13,7 @@ class ProductModel extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function prefix() {
+    public function productModelPrefix() {
         return $this->belongsTo(ProductModelPrefix::class);
     }
 }

@@ -13,7 +13,9 @@
 				<a href="#info" class="btn btn-primary gap-2 justify-start">
 					<InformationCircleIcon class="h-5 w-5" />
 
-					<span class="text-white font-normal text-xs">Informações</span>
+					<span class="text-white font-normal text-xs"
+						>Informações</span
+					>
 				</a>
 
 				<a href="#image" class="btn btn-primary gap-2 justify-start">
@@ -24,15 +26,19 @@
 			</div>
 
 			<div class="w-full">
-				<div id="info" class="bg-white rounded-lg p-4 mb-6">
-					<h2 class="text-xl font-bold mb-6">Informações</h2>
+				<div
+					id="info"
+					class="flex flex-col space-y-4 bg-white rounded-lg p-4 mb-6"
+				>
+					<h2 class="text-xl font-bold mb-2">Informações</h2>
 
-					<div class="md:flex mb-4 md:space-x-4">
+					<div class="md:flex md:space-x-4">
 						<div class="w-full md:w-1/2">
 							<input-text
 								label="Nome do Produto"
 								placeholder="ex: Cartão de visitas"
 								name="name"
+								type="search"
 								v-model="data.productName"
 								v-focus
 							/>
@@ -43,6 +49,7 @@
 								label="Slug"
 								placeholder="ex: cartao-de-visitas"
 								name="slug"
+								type="search"
 								v-model="slug"
 							/>
 						</div>
@@ -61,7 +68,54 @@
 						</div>
 
 						<div class="w-full md:w-1/2">
-							<input-group label="Modelo" />
+							<label>
+								<span
+									class="block text-slate-500 font-bold mb-2"
+									>Modelo</span
+								>
+
+								<select
+									class="select w-full text-slate-700 font-normal placeholder-gray-400 border-gray-300 focus:ring-indigo-600 focus:border-indigo-600"
+								>
+									<option
+										disabled
+										selected
+										class="disabled:text-slate-400"
+									>
+										Escolha tipo de modelo
+									</option>
+
+									<option
+										v-for="option in ['pdv', 'mdl', 'ca']"
+									>
+										{{ option }}
+									</option>
+								</select>
+							</label>
+						</div>
+					</div>
+
+					<div class="md:flex md:space-x-4">
+						<div class="w-full md:w-1/2">
+							<label>
+								<span
+									class="block text-slate-500 font-bold mb-2"
+									>Status</span
+								>
+
+								<select
+									class="select w-full text-slate-700 font-normal placeholder-gray-400 border-gray-300 focus:ring-indigo-600 focus:border-indigo-600"
+								>
+									<option
+										v-for="(
+											value, name
+										) in product_status_enum"
+										:value="value"
+									>
+										{{ name }}
+									</option>
+								</select>
+							</label>
 						</div>
 					</div>
 				</div>
@@ -82,6 +136,11 @@ import InformationCircleIcon from "@/Icons/InformationCircle.vue";
 import { reactive, computed } from "vue";
 import { slugfy } from "@/helpers/string";
 import InputGroup from "@/Components/Form/InputGroup.vue";
+import Refresh from "@/Icons/Refresh.vue";
+
+defineProps({
+	product_status_enum: Object,
+});
 
 const breadcrumbs = [
 	{

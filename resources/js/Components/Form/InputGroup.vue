@@ -12,9 +12,7 @@
 					class="w-full input input-bordered placeholder-gray-400"
 				/>
 
-				<button class="btn">
-					<Refresh />
-				</button>
+				<slot />
 			</div>
 		</div>
 	</label>
