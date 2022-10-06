@@ -3,7 +3,13 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
 use Illuminate\Database\Seeder;
+use App\Models\Category;
+use App\Models\Product;
+use App\Models\ProductModel;
+use App\Models\ProductModelPrefix;
+use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,10 +20,27 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Product::factory(10000)->create();
+        foreach (['pdv', 'mdl', 'ca'] as $prefix) {
+            ProductModelPrefix::create(['name' => $prefix]);
+        }
 
-        \App\Models\User::factory(10)->create();
-        \App\Models\User::factory()->create([
+        $allProductPrefixesIds = ProductModelPrefix::all()->pluck('id');
+        $allCategoryIds = Category::factory(10)->create()->pluck('id');
+
+        for ($i = 0; $i < 100; $i++) {
+            ProductModel::factory()
+                ->state(['product_model_prefix_id' => $allProductPrefixesIds->random()])
+                ->for(
+                    Product::factory()
+                        // ->forCategory() // forCategory = ->for(Category::factory()->create())
+                        ->state(['category_id' => $allCategoryIds->random()])
+                        ->create()
+                )
+                ->create();
+        }
+
+        User::factory(9)->create();
+        User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@email.com',
         ]);

@@ -12,7 +12,7 @@
 				<ComboboxButton
 					class="absolute inset-y-0 right-0 flex items-center pr-2"
 				>
-					<ChevronUpDownIcon
+					<MagnifyingGlass
 						class="h-5 w-5 text-gray-400"
 						aria-hidden="true"
 					/>
@@ -65,7 +65,7 @@
 									'text-indigo-600': !active,
 								}"
 							>
-								<CheckIcon class="h-5 w-5" aria-hidden="true" />
+								<MagnifyingGlass class="h-5 w-5" aria-hidden="true" />
 							</span>
 						</li>
 					</ComboboxOption>
@@ -85,7 +85,8 @@ import {
 	ComboboxOption,
 	TransitionRoot,
 } from "@headlessui/vue";
-import { CheckIcon, ChevronUpDownIcon } from "@heroicons/vue/20/solid";
+// import { CheckIcon, ChevronUpDownIcon } from "@heroicons/vue/20/solid";
+import MagnifyingGlass from "@/Icons/MagnifyingGlass.vue";
 
 const props = defineProps({ optionList: Object });
 

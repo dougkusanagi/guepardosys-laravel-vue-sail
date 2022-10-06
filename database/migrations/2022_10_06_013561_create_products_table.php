@@ -1,8 +1,11 @@
 <?php
 
+use App\Enums\ProductStatusEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Category;
+use App\Models\ProductModel;
 
 return new class extends Migration
 {
@@ -15,18 +18,16 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('category_id');
+            $table->foreignIdFor(Category::class)->constrained();
             $table->string('name');
             $table->string('slug');
-            $table->float('price')->default(0);
-            $table->string('model')->nullable();
+            $table->integer('price')->default(0);
             $table->text('description')->nullable();
             $table->text('description_html')->nullable();
-            $table->integer('stock')->default(0);
             $table->integer('stock_local')->default(0);
             $table->integer('stock_local_min')->default(0);
-            $table->boolean('active')->default(true);
-            $table->string('bar_code')->nullable();
+            $table->integer('stock_virtual')->default(0);
+            $table->bigInteger('barcode')->nullable();
             $table->string('ncm')->nullable();
             $table->float('weight')->default(0);
             $table->float('height')->default(0);
@@ -35,7 +36,7 @@ return new class extends Migration
             $table->string('brand')->nullable();
             $table->integer('availability')->default(0);
             $table->text('keywords')->nullable();
-            $table->string('status');
+            $table->string('status')->default(ProductStatusEnum::Active);
             $table->timestamps();
             $table->softDeletes();
         });

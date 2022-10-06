@@ -1,6 +1,6 @@
 <template>
 	<label>
-		<span class="block text-slate-400 mb-2" v-if="label.length">{{
+		<span class="block text-slate-500 font-bold mb-2" v-if="label.length">{{
 			label
 		}}</span>
 

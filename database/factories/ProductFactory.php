@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Enums\ProductStatusEnum;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
@@ -16,34 +18,29 @@ class ProductFactory extends Factory
      */
     public function definition()
     {
+        $name = fake()->sentence();
+
         return [
-            'name' => fake()->name(),
-            'slug' => fake()->slug(),
+            'name' => $name,
+            'slug' => Str::slug($name, '-'),
             'description' => fake()->text(),
-            'price' => rand(199, 5487),
-            'status' => fake()->randomElement(['active', 'inactive', 'waiting']),
+            'description_html' => fake()->text(400),
+            'price' => fake()->randomNumber(4, true),
+            'stock_virtual' => fake()->randomNumber(2),
+            'stock_local' => fake()->randomNumber(2),
+            'stock_local_min' => fake()->randomNumber(2),
+            'status' => fake()->randomElement([
+                ProductStatusEnum::Active, ProductStatusEnum::Inactive, ProductStatusEnum::Waiting
+            ]),
+            'barcode' => fake()->ean13(),
+            'ncm' => fake()->randomNumber(8, true),
+            'weight' => fake()->randomNumber(4, true),
+            'height' => fake()->randomNumber(4, true),
+            'width' => fake()->randomNumber(4, true),
+            'length' => fake()->randomNumber(4, true),
+            'brand' => 'GuepardoSys',
+            'availability' => fake()->randomDigit(),
+            'keywords' => implode(',', fake()->words(5)),
         ];
     }
 }
-
-// $table->unsignedBigInteger('category_id');
-// $table->string('name');
-// $table->string('slug');
-// $table->float('price')->default(0);
-// $table->string('model')->nullable();
-// $table->text('description')->nullable();
-// $table->text('description_html')->nullable();
-// $table->integer('stock')->default(0);
-// $table->integer('stock_local')->default(0);
-// $table->integer('stock_local_min')->default(0);
-// $table->boolean('active')->default(true);
-// $table->string('bar_code')->nullable();
-// $table->string('ncm')->nullable();
-// $table->float('weight')->default(0);
-// $table->float('height')->default(0);
-// $table->float('width')->default(0);
-// $table->float('length')->default(0);
-// $table->string('brand')->nullable();
-// $table->integer('availability')->default(0);
-// $table->text('keywords')->nullable();
-// $table->string('status');
