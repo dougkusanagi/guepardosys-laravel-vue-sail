@@ -3,11 +3,15 @@
 		<div
 			class="h-full bg-[#1f295a] flex flex-col items-end text-blue-200 rounded-[60px] text-xs"
 		>
-			<div class="w-24 border300 mt-10 mx-auto">
-				<LogoGuepardoSys />
+			<div
+				class="w-24 border300 mt-10 mx-auto border-4 border-white rounded-2xl hover:shadow-xl"
+			>
+				<Link :href="route('dashboard')">
+					<LogoGuepardoSys />
+				</Link>
 			</div>
 
-			<div class="flex flex-col mt-8 items-end">
+			<div class="flex flex-col mt-6 items-end">
 				<NavbarItem
 					v-for="item in navbarItems"
 					:label="item.label"
@@ -30,17 +34,17 @@ import InboxStack from "@/Icons/InboxStack.vue";
 import LogoGuepardoSys from "@/Icons/LogoGuepardoSys.vue";
 
 const navbarItems = [
-	{
-		id: 0,
-	  label: 'Dashboard',
-	  link: route('dashboard'),
-	  icon: Chart,
-	  component: "Dashboard"
-	},
+	// {
+	// 	id: 0,
+	// 	label: "Dashboard",
+	// 	link: route("dashboard"),
+	// 	icon: Chart,
+	// 	component: "Dashboard",
+	// },
 	{
 		id: 1,
 		label: "Produtos",
-		link: route("product.index", { 'order_by_field': 'name', 'direction': 'asc' }),
+		link: route("product.index", { order_by_field: "name", direction: "asc" }),
 		icon: Bag,
 		component: "Product/",
 	},
@@ -52,5 +56,4 @@ const navbarItems = [
 		component: "Category/",
 	},
 ];
-
 </script>

@@ -1,44 +1,34 @@
 <template>
-	<label>
-		<span class="block text-slate-500 font-bold mb-2" v-if="label.length">{{
-			label
-		}}</span>
-
-		<input
-			class="block w-full border bg-white px-3 py-2 transition duration-100 ease-in-out rounded-lg shadow-sm focus:ring-2 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed h-12"
-			:class="
-				(classes,
-				{
-					'text-slate-700 placeholder-gray-400 border-gray-300 focus:ring-indigo-600 focus:border-indigo-600':
-						!variant.length,
-					'text-emerald-700 placeholder-emerald-400 border-emerald-300 focus:ring-emerald-600 focus:border-emerald-600':
-						variant === 'success',
-					'text-rose-700 placeholder-rose-400 border-rose-300 focus:ring-rose-600 focus:border-rose-600':
-						variant === 'danger',
-				})
-			"
-			@input="e => $emit('update:modelValue', e.target.value)"
-			@change="e => $emit('change:modelValue', e.target.value)"
-			@focus="$emit('focus')"
-			@blur="$emit('blur')"
-			@keyup="$emit('keyup')"
-			@keydown="$emit('keydown')"
-			:value="modelValue"
-      :id="id"
-      :name="name"
-      :step="step"
-      :max="max"
-      :maxlength="maxlength"
-      :min="min"
-      :minlength="minlength"
-			:placeholder="placeholder"
-			:disabled="disabled"
-			:readonly="readonly"
-			:required="required"
-      :type="type"
-      :autocomplete="autocomplete"
-		/>
-	</label>
+	<input
+		class="block w-full border px-3 py-2 transition duration-100 ease-in-out rounded-lg shadow-sm focus:ring-2 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed h-12"
+		:class="
+			(classes,
+			{
+				'text-slate-700 placeholder-gray-400 border-gray-300 focus:ring-indigo-600 focus:border-indigo-600':
+					!variant.length,
+				'text-emerald-700 placeholder-emerald-400 border-emerald-300 focus:ring-emerald-600 focus:border-emerald-600':
+					variant === 'success',
+				'text-rose-700 placeholder-rose-400 border-rose-300 focus:ring-rose-600 focus:border-rose-600':
+					variant === 'danger',
+			})
+		"
+		@input="(e) => $emit('update:modelValue', e.target.value)"
+		@change="(e) => $emit('change:modelValue', e.target.value)"
+		:value="modelValue"
+		:id="id"
+		:name="name"
+		:type="type"
+		:step="step"
+		:max="max"
+		:min="min"
+		:maxlength="maxlength"
+		:minlength="minlength"
+		:placeholder="placeholder"
+		:disabled="disabled"
+		:readonly="readonly"
+		:required="required"
+		:autocomplete="autocomplete"
+	/>
 </template>
 
 <script setup>

@@ -5,6 +5,7 @@
         v-for="item in items"
         :link="item.link"
         :isHome="item.isHome"
+				:key="item.link"
       >
         {{ item.label }}
       </BreadcrumbItem>

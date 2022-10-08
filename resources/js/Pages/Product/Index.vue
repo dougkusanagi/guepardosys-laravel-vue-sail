@@ -66,10 +66,6 @@
 				</div>
 
 				<div class="w-1/3">
-					<!-- <Combobox :option-list="categories_all">
-						Escolha uma Categoria
-					</Combobox> -->
-
 					<select
 						class="select select-bordered w-full"
 						v-model="queryParams.category"
