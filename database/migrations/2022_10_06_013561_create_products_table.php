@@ -36,7 +36,7 @@ return new class extends Migration
             $table->string('brand')->nullable();
             $table->integer('availability')->default(0);
             $table->text('keywords')->nullable();
-            $table->string('status')->default(ProductStatusEnum::Active);
+            $table->integer('status')->default(ProductStatusEnum::Active);
             $table->timestamps();
             $table->softDeletes();
         });

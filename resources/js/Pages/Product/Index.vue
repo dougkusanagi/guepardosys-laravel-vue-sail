@@ -20,28 +20,28 @@
 		<div class="flex mb-6 border-b border-slate-300">
 			<ProductTabFilterByStatus
 				:isActive="!route().params.status"
-				:count="countProducts[0].total"
+				:count="count_products[0].total"
 				label="Todos"
 				@click="filterByStatus(null)"
 			/>
 
 			<ProductTabFilterByStatus
 				:isActive="route().params.status === 'active'"
-				:count="countProducts[0].totalActive"
+				:count="count_products[0].totalActive"
 				label="Ativos"
 				@click="filterByStatus('active')"
 			/>
 
 			<ProductTabFilterByStatus
 				:isActive="route().params.status === 'inactive'"
-				:count="countProducts[0].totalInactive"
+				:count="count_products[0].totalInactive"
 				label="Inativos"
 				@click="filterByStatus('inactive')"
 			/>
 
 			<ProductTabFilterByStatus
 				:isActive="route().params.status === 'waiting'"
-				:count="countProducts[0].totalWaiting"
+				:count="count_products[0].totalWaiting"
 				label="Aguardando"
 				@click="filterByStatus('waiting')"
 			/>
@@ -66,7 +66,7 @@
 				</div>
 
 				<div class="w-1/3">
-					<!-- <Combobox :option-list="categoriesAll">
+					<!-- <Combobox :option-list="categories_all">
 						Escolha uma Categoria
 					</Combobox> -->
 
@@ -75,7 +75,11 @@
 						v-model="queryParams.category"
 					>
 						<option selected value="">Todas as Categoria</option>
-						<option v-for="category in categoriesAll" :value="category.id">
+						<option
+							v-for="category in categories_all"
+							:key="category.id"
+							:value="category.id"
+						>
 							{{ category.name }}
 						</option>
 					</select>
@@ -98,7 +102,7 @@
 					<span
 						class="mr-1"
 						:class="
-							route().params.orderByField !== 'name'
+							route().params.order_by_field !== 'name'
 								? 'hidden'
 								: ''
 						"
@@ -121,7 +125,7 @@
 					<span
 						class="mr-1"
 						:class="
-							route().params.orderByField !== 'status'
+							route().params.order_by_field !== 'status'
 								? 'hidden'
 								: ''
 						"
@@ -139,8 +143,9 @@
 			</div>
 
 			<div
-				v-for="product in products.data"
 				class="bg-white overflow-hidden border-b border-slate-200 shadow-sm"
+				v-for="product in products.data"
+				:key="product.id"
 			>
 				<div class="flex items-center space-x-4 p-3">
 					<input class="border-slate-300" type="checkbox" name="[]" />
@@ -202,8 +207,8 @@ import Combobox from "@/Components/Combobox.vue";
 
 defineProps({
 	products: Object,
-	countProducts: Array,
-	categoriesAll: Array,
+	count_products: Array,
+	categories_all: Array,
 });
 
 const breadcrumbs = [
@@ -215,7 +220,7 @@ const breadcrumbs = [
 	{
 		label: "Produtos",
 		link: route("product.index", {
-			orderByField: "name",
+			order_by_field: "name",
 			direction: "asc",
 		}),
 	},
@@ -226,7 +231,7 @@ const breadcrumbs = [
 
 const queryParams = reactive({
 	search: "",
-	orderByField: "name",
+	order_by_field: "name",
 	direction: "asc",
 	status: "",
 	category: "",
@@ -244,14 +249,14 @@ watch(
 );
 
 const sort = (field) => {
-	if (queryParams.orderByField === field) {
+	if (queryParams.order_by_field === field) {
 		queryParams.direction =
 			queryParams.direction === "asc" ? "desc" : "asc";
 	} else {
 		queryParams.direction = "asc";
 	}
 
-	queryParams.orderByField = field;
+	queryParams.order_by_field = field;
 };
 
 const filterByStatus = (status) => (queryParams.status = status);

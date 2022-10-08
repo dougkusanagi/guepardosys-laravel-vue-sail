@@ -69,5 +69,4 @@ const props = defineProps({
 		},
 	},
 });
-
 </script>
