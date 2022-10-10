@@ -1,40 +1,33 @@
 <template>
 	<div class="pt-12 px-6">
-		<div class="flex mb-2">
-			<Breadcrumb :items="breadcrumbs" />
-		</div>
+		<LayoutHeader :breadcrumbs-links="breadcrumbsLinks">
+			<template #header-title>Cadastro de Produto</template>
 
-		<div class="flex items-center justify-between mb-6">
-			<h1 class="font-bold text-3xl">Cadastro de Produto</h1>
-
-			<div class="flex">
-				<ButtonGoBack />
-				<ButtonSave />
-			</div>
-		</div>
+			<template #append>
+				<div class="flex justify-between md:flex-1 md:justify-end">
+					<ButtonGoBack />
+					<ButtonSave />
+				</div>
+			</template>
+		</LayoutHeader>
 
 		<div class="flex lg:space-x-6">
-			<div
-				class="w-80 h-max hidden flex-col lg:flex rounded-lg space-y-1 sticky top-4"
-			>
-				<button type="submit" class="btn btn-accent gap-2">
-					<SaveIcon />
-					Salvar
-				</button>
-
-				<SidenavScrollto :links="links_sidenav" />
-			</div>
+			<SidenavScrollto :links="sidenavScrolltoLinks">
+				<template #prepend>
+					<button type="submit" class="btn btn-primary justify-start gap-2">
+						<SaveIcon />
+						Salvar
+					</button>
+				</template>
+			</SidenavScrollto>
 
 			<div class="w-full">
-				<div id="card-images" class="bg-white rounded-lg p-4 mb-6">
-					<h2 class="text-xl font-bold mb-6">Imagens</h2>
-				</div>
+				<LayoutSection id="card-images">
+					<template #header>Imagens</template>
+				</LayoutSection>
 
-				<div
-					id="card-basic-info"
-					class="flex flex-col bg-white rounded-lg p-4 mb-8"
-				>
-					<h2 class="text-xl font-bold mb-6">Informações</h2>
+				<LayoutSection id="card-basic-info">
+					<template #header>Informações</template>
 
 					<div class="md:flex md:space-x-4 mb-4">
 						<div class="w-full md:w-1/2">
@@ -152,10 +145,10 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</LayoutSection>
 
-				<div id="card-sizes" class="bg-white rounded-lg p-4 mb-6">
-					<h2 class="text-xl font-bold mb-6">Medidas</h2>
+				<LayoutSection id="card-sizes">
+					<template #header>Medidas</template>
 
 					<div class="md:flex md:space-x-4 mb-4">
 						<div class="w-full lg:w-1/4">
@@ -210,7 +203,7 @@
 							/>
 						</div>
 					</div>
-				</div>
+				</LayoutSection>
 			</div>
 		</div>
 	</div>
@@ -231,8 +224,11 @@ import ButtonSave from "@/Components/ButtonSave.vue";
 import CameraIcon from "@/Icons/Camera.vue";
 import ScaleIcon from "@/Icons/Scale.vue";
 import SaveIcon from "@/Icons/Save.vue";
+import LayoutSection from "@/Components/LayoutSection.vue";
+import LayoutHeader from "@/Components/LayoutHeader.vue";
+import ChevronRight from "@/Icons/ChevronRight.vue";
 
-const breadcrumbs = [
+const breadcrumbsLinks = [
 	{
 		label: "Dashboard",
 		link: route("dashboard"),
@@ -250,7 +246,7 @@ const breadcrumbs = [
 	},
 ];
 
-const links_sidenav = [
+const sidenavScrolltoLinks = [
 	{
 		name: "Imagens",
 		route: "#card-images",

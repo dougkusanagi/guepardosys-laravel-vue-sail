@@ -2,55 +2,60 @@
 	<Head title="Produtos" />
 
 	<div class="pt-12 px-6">
-		<div class="flex mb-2">
-			<Breadcrumb :items="breadcrumbs" />
-		</div>
+		<LayoutHeader :breadcrumbs-links="breadcrumbsLinks">
+			<template #header-title>
+				Lista de Produtos
+				<Link
+					class="w-8 h-8 flex items-center justify-center bg-cyan-300 text-white rounded-lg rounded-br-none mr-12 ml-3 p-2"
+					:href="route('product.add')"
+				>
+					<Plus />
+				</Link>
+			</template>
 
-		<div class="flex items-center mb-12">
-			<h1 class="font-bold text-3xl">Lista de Produtos</h1>
-
-			<Link
-				class="w-8 h-8 flex items-center justify-center bg-cyan-300 text-white rounded-lg rounded-br-none mr-12 ml-3 p-2"
-				:href="route('product.add')"
-			>
-				<Plus />
-			</Link>
-		</div>
+			<template #append>
+				<div class="flex justify-between md:flex-1 md:justify-end">
+					<ButtonGoBack />
+				</div>
+			</template>
+		</LayoutHeader>
 
 		<div class="flex mb-6 border-b border-slate-300">
-			<ProductTabFilterByStatus
+			<TabsFilterByStatusLink
 				:isActive="!route().params.status"
-				:count="count_products[0].total"
+				:count="props.products_count.total"
 				label="Todos"
 				@click="filterByStatus(null)"
 			/>
 
-			<ProductTabFilterByStatus
+			<TabsFilterByStatusLink
 				:isActive="route().params.status === 'active'"
-				:count="count_products[0].totalActive"
+				:count="props.products_count.totalActive"
 				label="Ativos"
 				@click="filterByStatus('active')"
 			/>
 
-			<ProductTabFilterByStatus
+			<TabsFilterByStatusLink
 				:isActive="route().params.status === 'inactive'"
-				:count="count_products[0].totalInactive"
+				:count="props.products_count.totalInactive"
 				label="Inativos"
 				@click="filterByStatus('inactive')"
 			/>
 
-			<ProductTabFilterByStatus
+			<TabsFilterByStatusLink
 				:isActive="route().params.status === 'waiting'"
-				:count="count_products[0].totalWaiting"
+				:count="props.products_count.totalWaiting"
 				label="Aguardando"
 				@click="filterByStatus('waiting')"
 			/>
 		</div>
 
-		<div class="bg-white rounded-lg">
-			<div class="flex items-center justify-between space-x-4 p-4">
+		<LayoutSection class="bg-white rounded-lg">
+			<template #header>Pesquisar</template>
+
+			<div class="md:flex md:space-x-4 mb-4">
 				<div class="w-1/3 relative flex-1">
-					<div
+					<!-- <div
 						class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none"
 					>
 						<MagnifyingGlass />
@@ -62,11 +67,19 @@
 						placeholder="Pesquisar nome do produto"
 						v-model="queryParams.search"
 						autofocus
+					/> -->
+
+					<FormInputText
+						placeholder="ex: 19.98"
+						name="stock_virtual"
+						id="stock_virtual"
+						min="0"
+						v-model="queryParams.search"
 					/>
 				</div>
 
 				<div class="w-1/3">
-					<select
+					<!-- <select
 						class="select select-bordered w-full"
 						v-model="queryParams.category"
 					>
@@ -78,60 +91,46 @@
 						>
 							{{ category.name }}
 						</option>
-					</select>
+					</select> -->
+
+					<FormSelect v-model="queryParams.category" :options="categories_all" />
 				</div>
 
-				<span class="flex-1 ml text-[#969bba] text-center">
-					{{ products.total }} encontrados
+				<span class="flex items-center justify-center flex-1 ml text-[#969bba] text-center">
+					{{ props.products.total }} encontrados
 				</span>
 			</div>
 
-			<div class="flex items-center bg-slate-50 border-y p-3">
+			<div class="flex items-center bg-slate-50 text-slate-600 border-y p-3 dark:bg-[#11183C] dark:brightness-90 dark:border-slate-600">
 				<input class="border-slate-300" type="checkbox" name="[]" />
 
 				<div class="w-16 h-0 opacity-0 mx-2" alt="Produto"></div>
 
 				<span
-					class="flex text-slate-600 font-bold mx-3 cursor-pointer"
+					class="flex font-bold mx-3 cursor-pointer"
 					@click="sort('name')"
 				>
 					<span
 						class="mr-1"
-						:class="
-							route().params.order_by_field !== 'name'
-								? 'hidden'
-								: ''
-						"
+						:class="route().params.order_by_field !== 'name' ? 'hidden' : ''"
 					>
 						<ArrowUp
-							:class="
-								route().params.direction === 'desc'
-									? 'rotate-180'
-									: ''
-							"
+							:class="route().params.direction === 'desc' ? 'rotate-180' : ''"
 						/>
 					</span>
 					Nome
 				</span>
 
 				<span
-					class="flex text-slate-600 font-bold cursor-pointer ml-auto mr-4"
+					class="flex font-bold cursor-pointer ml-auto mr-4"
 					@click="sort('status')"
 				>
 					<span
 						class="mr-1"
-						:class="
-							route().params.order_by_field !== 'status'
-								? 'hidden'
-								: ''
-						"
+						:class="route().params.order_by_field !== 'status' ? 'hidden' : ''"
 					>
 						<ArrowUp
-							:class="
-								route().params.direction === 'desc'
-									? 'rotate-180'
-									: ''
-							"
+							:class="route().params.direction === 'desc' ? 'rotate-180' : ''"
 						/>
 					</span>
 					Status
@@ -139,8 +138,8 @@
 			</div>
 
 			<div
-				class="bg-white overflow-hidden border-b border-slate-200 shadow-sm"
-				v-for="product in products.data"
+				class="bg-white border-slate-200 overflow-hidden border-b shadow-sm dark:bg-[#11183C] dark:border-slate-700"
+				v-for="product in props.products.data"
 				:key="product.id"
 			>
 				<div class="flex items-center space-x-4 p-3">
@@ -175,11 +174,9 @@
 							<div
 								class="w-2 h-2 rounded-full mr-2"
 								:class="{
-									'bg-emerald-400':
-										product.status == 'active',
+									'bg-emerald-400': product.status == 'active',
 									'bg-red-400': product.status == 'inactive',
-									'bg-yellow-500':
-										product.status == 'waiting',
+									'bg-yellow-500': product.status == 'waiting',
 								}"
 							></div>
 							{{ product.status }}
@@ -187,7 +184,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</LayoutSection>
 	</div>
 </template>
 
@@ -197,17 +194,21 @@ import { reactive, watch } from "vue";
 import Plus from "@/Icons/Plus.vue";
 import ArrowUp from "@/Icons/ArrowUp.vue";
 import MagnifyingGlass from "@/Icons/MagnifyingGlass.vue";
-import ProductTabFilterByStatus from "@/Components/ProductTabFilterByStatus.vue";
-import Breadcrumb from "@/Components/Breadcrumb.vue";
-import Combobox from "@/Components/Combobox.vue";
+import TabsFilterByStatusLink from "@/Components/TabsFilterByStatusLink.vue";
+import LayoutHeader from "@/Components/LayoutHeader.vue";
+import ButtonGoBack from "@/Components/ButtonGoBack.vue";
+import LayoutSection from "@/Components/LayoutSection.vue";
+import FormLabel from "@/Components/Form/FormLabel.vue";
+import FormInputText from "@/Components/Form/FormInputText.vue";
+import FormSelect from "@/Components/Form/FormSelect.vue";
 
-defineProps({
+const props = defineProps({
 	products: Object,
-	count_products: Array,
+	products_count: Object,
 	categories_all: Array,
 });
 
-const breadcrumbs = [
+const breadcrumbsLinks = [
 	{
 		label: "Dashboard",
 		link: route("dashboard"),
@@ -246,8 +247,7 @@ watch(
 
 const sort = (field) => {
 	if (queryParams.order_by_field === field) {
-		queryParams.direction =
-			queryParams.direction === "asc" ? "desc" : "asc";
+		queryParams.direction = queryParams.direction === "asc" ? "desc" : "asc";
 	} else {
 		queryParams.direction = "asc";
 	}

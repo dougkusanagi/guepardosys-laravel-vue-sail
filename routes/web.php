@@ -20,18 +20,18 @@ Route::get('/products', function () {
 		->orderBy('name', 'ASC')
 		->paginate();
 
-	$count_products = Product::toBase()
+	$products_count = Product::toBase()
 		->selectRaw("count(IF(status = 'active', 1, null)) as totalActive")
 		->selectRaw("count(IF(status = 'inactive', 1, null)) as totalInactive")
 		->selectRaw("count(IF(status = 'waiting', 1, null)) as totalWaiting")
 		->selectRaw("count(*) as total")
-		->get();
+		->first();
 
 	$categories_all = Category::all();
 
 	return inertia('Product/Index', compact([
 		'products',
-		'count_products',
+		'products_count',
 		'categories_all'
 	]));
 })->name('product.index');

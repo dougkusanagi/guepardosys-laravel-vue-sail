@@ -1,10 +1,10 @@
 <template>
 	<label
-		class="block font-bold mb-2"
+		class="block mb-2"
 		:class="
 			(classes,
 			{
-				'text-slate-500': !variant.length,
+				'text-slate-500 dark:text-[#7480BC]': !variant.length,
 				'text-emerald-700': variant === 'success',
 				'text-rose-700': variant === 'danger',
 			})

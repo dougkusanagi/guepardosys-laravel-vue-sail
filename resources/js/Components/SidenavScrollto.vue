@@ -1,8 +1,10 @@
 <template>
 	<div
-		class="w-80 h-max hidden flex-col lg:flex rounded-lg space-y-1 sticky top-0"
+		class="w-64 h-max hidden flex-col lg:flex rounded-lg space-y-1 sticky top-8"
 	>
+		<slot name="prepend" />
 		<SidenavScrolltoLink v-for="link in links" :link="link" :key="link.route" />
+		<slot name="append" />
 	</div>
 </template>
 

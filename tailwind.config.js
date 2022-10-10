@@ -8,8 +8,8 @@ module.exports = {
 		themes: [
 			{
 				mytheme: {
-					primary: "#1f295a",
-					secondary: "#4f46e5",
+					primary: "#4338ca",
+					secondary: "#11183C",
 					accent: "#5eead4",
 					neutral: "#191D24",
 					"base-100": "#fff",
@@ -28,7 +28,7 @@ module.exports = {
 		"./resources/views/**/*.blade.php",
 		"./resources/js/**/*.vue",
 	],
-    
+
 	theme: {
 		extend: {
 			fontFamily: {

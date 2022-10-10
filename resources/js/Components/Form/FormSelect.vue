@@ -1,10 +1,10 @@
 <template>
 	<select
-		class="block w-full border px-3 py-2 transition duration-100 ease-in-out rounded-lg shadow-sm focus:ring-2 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed h-12"
+		class="block w-full border px-3 py-2 transition duration-100 ease-in-out rounded-lg shadow-sm focus:ring-2 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed h-12 dark:bg-[#232B53]"
 		:class="
 			(classes,
 			{
-				'bg-white border-gray-300 text-slate-700': !variant.length,
+				'bg-white border-gray-300 text-slate-700 dark:border-none dark:text-slate-100 dark:placeholder-gray-500': !variant.length,
 				'text-emerald-700 placeholder-emerald-400 border-emerald-300 focus:ring-emerald-600 focus:border-emerald-600':
 					variant === 'success',
 				'text-rose-700 placeholder-rose-400 border-rose-300 focus:ring-rose-600 focus:border-rose-600':
