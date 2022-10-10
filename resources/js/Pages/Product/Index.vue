@@ -6,7 +6,7 @@
 			<template #header-title>
 				Lista de Produtos
 				<Link
-					class="w-8 h-8 flex items-center justify-center bg-cyan-300 text-white rounded-lg rounded-br-none mr-12 ml-3 p-2"
+					class="w-8 h-8 flex items-center justify-center btn-primary text-white rounded-lg rounded-br-none mr-12 ml-3 p-2"
 					:href="route('product.add')"
 				>
 					<Plus />
@@ -51,48 +51,18 @@
 		</div>
 
 		<LayoutSection class="bg-white rounded-lg">
-			<template #header>Pesquisar</template>
-
 			<div class="md:flex md:space-x-4 mb-4">
 				<div class="w-1/3 relative flex-1">
-					<!-- <div
-						class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none"
-					>
-						<MagnifyingGlass />
-					</div>
-
-					<input
-						type="search"
-						class="w-full h-12 block font-medium text-sm text-slate-500 border border-slate-300 focus:ring-indigo-600 focus:border-indigo-600 rounded-lg pl-10"
-						placeholder="Pesquisar nome do produto"
-						v-model="queryParams.search"
-						autofocus
-					/> -->
-
 					<FormInputText
-						placeholder="ex: 19.98"
+						placeholder="Digite o nome do produto..."
 						name="stock_virtual"
 						id="stock_virtual"
-						min="0"
+						type="search"
 						v-model="queryParams.search"
 					/>
 				</div>
 
 				<div class="w-1/3">
-					<!-- <select
-						class="select select-bordered w-full"
-						v-model="queryParams.category"
-					>
-						<option selected value="">Todas as Categoria</option>
-						<option
-							v-for="category in categories_all"
-							:key="category.id"
-							:value="category.id"
-						>
-							{{ category.name }}
-						</option>
-					</select> -->
-
 					<FormSelect v-model="queryParams.category" :options="categories_all" />
 				</div>
 
@@ -101,8 +71,8 @@
 				</span>
 			</div>
 
-			<div class="flex items-center bg-slate-50 text-slate-600 border-y p-3 dark:bg-[#11183C] dark:brightness-90 dark:border-slate-600">
-				<input class="border-slate-300" type="checkbox" name="[]" />
+			<div class="flex items-center bg-slate-50 text-slate-600 border-y p-3 dark:bg-[#11183C] dark:brightness-75 dark:border-none dark:text-slate-200">
+				<!-- <input class="border-slate-300" type="checkbox" name="[]" /> -->
 
 				<div class="w-16 h-0 opacity-0 mx-2" alt="Produto"></div>
 
@@ -142,8 +112,9 @@
 				v-for="product in props.products.data"
 				:key="product.id"
 			>
-				<div class="flex items-center space-x-4 p-3">
-					<input class="border-slate-300" type="checkbox" name="[]" />
+				<div class="flex items-center space-x-4 py-4 px-6">
+					<!-- <input class="border-slate-300" type="checkbox" name="[]" /> -->
+
 					<a href="#">
 						<img
 							class="w-16 h-16 object-fill rounded-full"
@@ -190,7 +161,7 @@
 
 <script setup>
 import { Inertia } from "@inertiajs/inertia";
-import { reactive, watch } from "vue";
+import { reactive, watch, computed } from "vue";
 import Plus from "@/Icons/Plus.vue";
 import ArrowUp from "@/Icons/ArrowUp.vue";
 import MagnifyingGlass from "@/Icons/MagnifyingGlass.vue";
@@ -256,4 +227,11 @@ const sort = (field) => {
 };
 
 const filterByStatus = (status) => (queryParams.status = status);
+
+const categories_all_complete = computed(() => {
+	return [
+		{ name: 'Todas as categorias', id: null }
+		,...categories_all
+	]
+});
 </script>

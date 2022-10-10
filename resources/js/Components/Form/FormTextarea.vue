@@ -1,6 +1,6 @@
 <template>
 	<textarea
-		class="textarea textarea-bordered h-24 dark:bg-[#232B53]"
+		class="textarea textarea-bordered h-24 dark:bg-[#0D0C22]"
 		:class="
 			(classes,
 			{

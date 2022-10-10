@@ -1,6 +1,7 @@
 <template>
 	<label
-		class="block mb-2"
+		class="block mb-2 text-sm"
+		:for="id"
 		:class="
 			(classes,
 			{
@@ -9,7 +10,6 @@
 				'text-rose-700': variant === 'danger',
 			})
 		"
-		:for="id"
 	>
 		<slot />
 	</label>

@@ -6,19 +6,20 @@
 			<template #append>
 				<div class="flex justify-between md:flex-1 md:justify-end">
 					<ButtonGoBack />
-					<ButtonSave />
+					<ButtonSave class="w-52 flex lg:hidden ml-4" />
 				</div>
 			</template>
 		</LayoutHeader>
 
 		<div class="flex lg:space-x-6">
-			<SidenavScrollto :links="sidenavScrolltoLinks">
-				<template #prepend>
-					<button type="submit" class="btn btn-primary justify-start gap-2">
-						<SaveIcon />
-						Salvar
-					</button>
-				</template>
+			<SidenavScrollto>
+				<ButtonSave />
+
+				<SidenavScrolltoLink
+					v-for="link in sidenavScrolltoLinks"
+					:link="link"
+					:key="link.route"
+				/>
 			</SidenavScrollto>
 
 			<div class="w-full">
@@ -212,21 +213,19 @@
 <script setup>
 import { reactive, computed } from "vue";
 import { slugfy } from "@/helpers/string";
-import InformationCircleIcon from "@/Icons/InformationCircle.vue";
-import FormInputText from "@/Components/Form/FormInputText.vue";
-import SidenavScrollto from "@/Components/SidenavScrollto.vue";
-import FormTextarea from "@/Components/Form/FormTextarea.vue";
-import FormSelect from "@/Components/Form/FormSelect.vue";
-import ButtonGoBack from "@/Components/ButtonGoBack.vue";
 import FormLabel from "@/Components/Form/FormLabel.vue";
-import Breadcrumb from "@/Components/Breadcrumb.vue";
-import ButtonSave from "@/Components/ButtonSave.vue";
+import ButtonSave from "@/Components/Form/ButtonSave.vue";
+import FormSelect from "@/Components/Form/FormSelect.vue";
+import FormTextarea from "@/Components/Form/FormTextarea.vue";
+import ButtonGoBack from "@/Components/ButtonGoBack.vue";
+import LayoutHeader from "@/Components/LayoutHeader.vue";
+import FormInputText from "@/Components/Form/FormInputText.vue";
+import LayoutSection from "@/Components/LayoutSection.vue";
+import SidenavScrollto from "@/Components/SidenavScrollto.vue";
+import SidenavScrolltoLink from "@/Components/SidenavScrolltoLink.vue";
+import InformationCircleIcon from "@/Icons/InformationCircle.vue";
 import CameraIcon from "@/Icons/Camera.vue";
 import ScaleIcon from "@/Icons/Scale.vue";
-import SaveIcon from "@/Icons/Save.vue";
-import LayoutSection from "@/Components/LayoutSection.vue";
-import LayoutHeader from "@/Components/LayoutHeader.vue";
-import ChevronRight from "@/Icons/ChevronRight.vue";
 
 const breadcrumbsLinks = [
 	{
