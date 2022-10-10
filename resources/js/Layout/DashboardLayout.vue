@@ -4,7 +4,7 @@
 	<div class="flex">
 		<Sidenav />
 
-		<div class="w-full ml-44">
+		<div class="w-full ml-24 md:ml-44">
 			<slot />
 		</div>
 	</div>

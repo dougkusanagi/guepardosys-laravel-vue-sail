@@ -1,17 +1,17 @@
 <template>
-	<aside class="h-[100vh] w-[12rem] p-4 fixed">
+	<aside class="h-[100vh] w-28 md:w-[12rem] p-4 fixed">
 		<div
-			class="h-full flex flex-col items-end bg-[#11183C] text-blue-200 rounded-[60px] text-xs dark:bg-[#11183C] dark:text-blue-200"
+			class="h-full flex flex-col md:items-end bg-[#11183C] text-blue-200 rounded-[60px] text-xs dark:bg-[#11183C] dark:text-blue-200"
 		>
 			<div
-				class="w-24 border300 mt-10 mx-auto border-4 border-white rounded-2xl hover:shadow-xl"
+				class="w-16 md:w-24 mt-10 mx-auto rounded-2xl hover:shadow-xl"
 			>
 				<Link :href="route('dashboard')">
 					<LogoGuepardoSys />
 				</Link>
 			</div>
 
-			<div class="flex flex-col mt-6 items-end">
+			<div class="flex flex-col mt-6 items-center md:items-end">
 				<NavbarItem
 					v-for="item in navbarItems"
 					:label="item.label"

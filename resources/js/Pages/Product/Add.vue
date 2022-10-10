@@ -14,7 +14,6 @@
 		<div class="flex lg:space-x-6">
 			<SidenavScrollto>
 				<ButtonSave />
-
 				<SidenavScrolltoLink
 					v-for="link in sidenavScrolltoLinks"
 					:link="link"

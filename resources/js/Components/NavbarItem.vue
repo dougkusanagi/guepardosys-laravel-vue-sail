@@ -1,24 +1,26 @@
 <template>
 	<Link
 		:href="link"
-    class="w-[8rem] flex items-center"
+		:title="label"
+    class="w-12 md:w-[8rem] flex justify-center md:justify-start items-center"
 		:class="
 			active
-				? 'bg-indigo-600 py-6 text-white rounded-l-xl'
+				? 'md:bg-indigo-600 py-6 text-white rounded-l-xl'
 				: 'py-4 rounded-l-md'
 		"
 	>
 		<div
+			class="absolute md:-ml-5 rounded-br-none"
 			:class="
 				active
-					? 'bg-cyan-300 p-2 -ml-5 absolute text-white rounded-lg rounded-br-none'
-					: 'p-2 -ml-5 absolute rounded-md rounded-br-none text-indigo-500'
+					? 'bg-cyan-300 p-2 text-white rounded-lg'
+					: 'p-2 rounded-md text-indigo-500'
 			"
 		>
 			<slot />
 		</div>
 
-		<span :class="active ? 'ml-7' : 'ml-5'">{{ label }}</span>
+		<span class="hidden md:block" :class="active ? 'ml-7' : 'ml-5'">{{ label }}</span>
 	</Link>
 </template>
 
