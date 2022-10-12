@@ -7,7 +7,8 @@
 				class="w-16 md:w-24 mt-10 mx-auto rounded-2xl hover:shadow-xl"
 			>
 				<Link :href="route('dashboard')">
-					<LogoGuepardoSys />
+					<LogoGuepardoSys class="hidden md:flex" />
+					<LogoGuepardoSysSm class="md:hidden" />
 				</Link>
 			</div>
 
@@ -28,10 +29,10 @@
 
 <script setup>
 import NavbarItem from "@/Components/NavbarItem.vue";
-import Chart from "@/Icons/Chart.vue";
 import Bag from "@/Icons/Bag.vue";
 import InboxStack from "@/Icons/InboxStack.vue";
 import LogoGuepardoSys from "@/Icons/LogoGuepardoSys.vue";
+import LogoGuepardoSysSm from "@/Icons/LogoGuepardoSysSm.vue";
 
 const navbarItems = [
 	// {

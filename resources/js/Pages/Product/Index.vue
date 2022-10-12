@@ -7,9 +7,9 @@
 				Lista de Produtos
 				<Link
 					class="w-8 h-8 flex items-center justify-center btn-primary text-white rounded-lg rounded-br-none mr-12 ml-3 p-2"
-					:href="route('product.add')"
+					:href="route('product.add')+'#card-images'"
 				>
-					<Plus />
+					<PlusIcon />
 				</Link>
 			</template>
 
@@ -162,7 +162,7 @@
 <script setup>
 import { Inertia } from "@inertiajs/inertia";
 import { reactive, watch, computed } from "vue";
-import Plus from "@/Icons/Plus.vue";
+import PlusIcon from "@/Icons/Plus.vue";
 import ArrowUp from "@/Icons/ArrowUp.vue";
 import MagnifyingGlass from "@/Icons/MagnifyingGlass.vue";
 import TabsFilterByStatusLink from "@/Components/TabsFilterByStatusLink.vue";

@@ -6,8 +6,8 @@ use App\Models\Product;
 use App\Models\ProductModelPrefix;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', fn () => inertia('Dashboard'))->name('dashboard');
-Route::get('/', fn () => redirect()->route('product.index'))->name('dashboard');
+ Route::get('/', fn () => inertia('Dashboard'))->name('dashboard');
+//Route::get('/', fn () => redirect()->route('product.index'))->name('dashboard');
 
 Route::get('/products', function () {
 	$products = Product::query()

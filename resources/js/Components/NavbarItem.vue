@@ -6,14 +6,14 @@
 		:class="
 			active
 				? 'md:bg-indigo-600 py-6 text-white rounded-l-xl'
-				: 'py-4 rounded-l-md'
+				: 'py-4 rounded-l-md my-2'
 		"
 	>
 		<div
 			class="absolute md:-ml-5 rounded-br-none"
 			:class="
 				active
-					? 'bg-cyan-300 p-2 text-white rounded-lg'
+					? 'bg-cyan-300 text-white rounded-lg p-2'
 					: 'p-2 rounded-md text-indigo-500'
 			"
 		>
