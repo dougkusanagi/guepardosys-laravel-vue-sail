@@ -21,18 +21,22 @@ Route::get('/products', function () {
 		->paginate();
 
 	$products_count = Product::toBase()
-		->selectRaw("count(IF(status = 'active', 1, null)) as totalActive")
-		->selectRaw("count(IF(status = 'inactive', 1, null)) as totalInactive")
-		->selectRaw("count(IF(status = 'waiting', 1, null)) as totalWaiting")
+		->selectRaw("count(IF(status = ".ProductStatusEnum::Active.", 1, null)) as totalActive")
+		->selectRaw("count(IF(status = ".ProductStatusEnum::Inactive.", 1, null)) as totalInactive")
+		->selectRaw("count(IF(status = ".ProductStatusEnum::Waiting.", 1, null)) as totalWaiting")
 		->selectRaw("count(*) as total")
 		->first();
 
 	$categories_all = Category::all();
 
+	$product_status_all = [];
+	foreach (ProductStatusEnum::asArray() as $index => $status) {
+		$product_status_all[$index] = (string) $status;
+	}
+	$product_status_all = collect($product_status_all);
+
 	return inertia('Product/Index', compact([
-		'products',
-		'products_count',
-		'categories_all'
+		'products', 'products_count', 'categories_all', 'product_status_all'
 	]));
 })->name('product.index');
 Route::get('/products/add', function () {

@@ -29,24 +29,24 @@
 			/>
 
 			<TabsFilterByStatusLink
-				:isActive="route().params.status === 'active'"
+				:isActive="route().params.status === product_status_all.Active"
 				:count="props.products_count.totalActive"
 				label="Ativos"
-				@click="filterByStatus('active')"
+				@click="filterByStatus(product_status_all.Active)"
 			/>
 
 			<TabsFilterByStatusLink
-				:isActive="route().params.status === 'inactive'"
+				:isActive="route().params.status === product_status_all.Inactive"
 				:count="props.products_count.totalInactive"
 				label="Inativos"
-				@click="filterByStatus('inactive')"
+				@click="filterByStatus(product_status_all.Inactive)"
 			/>
 
 			<TabsFilterByStatusLink
-				:isActive="route().params.status === 'waiting'"
+				:isActive="route().params.status === product_status_all.Waiting"
 				:count="props.products_count.totalWaiting"
 				label="Aguardando"
-				@click="filterByStatus('waiting')"
+				@click="filterByStatus(product_status_all.Waiting)"
 			/>
 		</div>
 
@@ -177,6 +177,7 @@ const props = defineProps({
 	products: Object,
 	products_count: Object,
 	categories_all: Array,
+	product_status_all: Object,
 });
 
 const breadcrumbsLinks = [
