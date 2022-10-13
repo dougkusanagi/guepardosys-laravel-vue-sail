@@ -1,31 +1,24 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Enums\ProductStatusEnum;
+use App\Models\ProductModelPrefix;
 use App\Models\Category;
 use App\Models\Product;
-use App\Models\ProductModelPrefix;
-use Illuminate\Support\Facades\Route;
 
  Route::get('/', fn () => inertia('Dashboard'))->name('dashboard');
 //Route::get('/', fn () => redirect()->route('product.index'))->name('dashboard');
 
 Route::get('/products', function () {
 	$products = Product::query()
-		// ->select('name', 'status')
 		->with('category')
-		->when(request('search'), fn ($q, $search) => $q->where('name', 'LIKE', $search . '%'))
-		->when(request('status'), fn ($q, $status)  => $q->where('status', $status))
-		->when(request('category'), fn ($q, $category_id)  => $q->where('category_id', $category_id))
-		->when(request('order_by_field'), fn ($q, $field) => $q->orderBy($field, request('direction')))
-		->orderBy('name', 'ASC')
+		->when(request('category'), fn ($query, $category_id)  => $query->where('category_id', $category_id))
+		->when(request('search'), fn ($query) => $query->search())
+		->when(request('status') !== false,  fn ($query) => $query->status())
+		->when(request('order_by'), fn ($query, $field) => $query->orderBy($field, request('direction')))
 		->paginate();
 
-	$products_count = Product::toBase()
-		->selectRaw("count(IF(status = ".ProductStatusEnum::Active.", 1, null)) as totalActive")
-		->selectRaw("count(IF(status = ".ProductStatusEnum::Inactive.", 1, null)) as totalInactive")
-		->selectRaw("count(IF(status = ".ProductStatusEnum::Waiting.", 1, null)) as totalWaiting")
-		->selectRaw("count(*) as total")
-		->first();
+	$products_count = Product::getStatusCounts();
 
 	$categories_all = Category::all();
 

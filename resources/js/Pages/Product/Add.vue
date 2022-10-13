@@ -235,7 +235,7 @@ const breadcrumbsLinks = [
 	{
 		label: "Produtos",
 		link: route("product.index", {
-			order_by_field: "name",
+			order_by: "name",
 			direction: "asc",
 		}),
 	},

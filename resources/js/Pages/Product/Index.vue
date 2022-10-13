@@ -63,7 +63,7 @@
 				</div>
 
 				<div class="w-1/3">
-					<FormSelect v-model="queryParams.category" :options="categories_all" />
+					<FormSelect v-model="queryParams.category" :options="categories_all_complete" />
 				</div>
 
 				<span class="flex items-center justify-center flex-1 ml text-[#969bba] text-center">
@@ -82,7 +82,7 @@
 				>
 					<span
 						class="mr-1"
-						:class="route().params.order_by_field !== 'name' ? 'hidden' : ''"
+						:class="route().params.order_by !== 'name' ? 'hidden' : ''"
 					>
 						<ArrowUp
 							:class="route().params.direction === 'desc' ? 'rotate-180' : ''"
@@ -97,7 +97,7 @@
 				>
 					<span
 						class="mr-1"
-						:class="route().params.order_by_field !== 'status' ? 'hidden' : ''"
+						:class="route().params.order_by !== 'status' ? 'hidden' : ''"
 					>
 						<ArrowUp
 							:class="route().params.direction === 'desc' ? 'rotate-180' : ''"
@@ -189,7 +189,7 @@ const breadcrumbsLinks = [
 	{
 		label: "Produtos",
 		link: route("product.index", {
-			order_by_field: "name",
+			order_by: "name",
 			direction: "asc",
 		}),
 	},
@@ -200,7 +200,7 @@ const breadcrumbsLinks = [
 
 const queryParams = reactive({
 	search: "",
-	order_by_field: "name",
+	order_by: "name",
 	direction: "asc",
 	status: "",
 	category: "",
@@ -218,21 +218,21 @@ watch(
 );
 
 const sort = (field) => {
-	if (queryParams.order_by_field === field) {
+	if (queryParams.order_by === field) {
 		queryParams.direction = queryParams.direction === "asc" ? "desc" : "asc";
 	} else {
 		queryParams.direction = "asc";
 	}
 
-	queryParams.order_by_field = field;
+	queryParams.order_by = field;
 };
 
 const filterByStatus = (status) => (queryParams.status = status);
 
 const categories_all_complete = computed(() => {
 	return [
-		{ name: 'Todas as categorias', id: null }
-		,...categories_all
+		{ name: 'Todas as categorias', id: '' }
+		,...props.categories_all
 	]
 });
 </script>
