@@ -6,7 +6,7 @@
 		:class="
 			active
 				? 'md:bg-indigo-600 py-6 text-white rounded-l-xl'
-				: 'py-4 rounded-l-md my-2'
+				: 'py-4 rounded-l-md my-2 '
 		"
 	>
 		<div
