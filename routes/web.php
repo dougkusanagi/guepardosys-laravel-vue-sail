@@ -13,10 +13,10 @@ Route::get('/products', function () {
 	$products = Product::query()
 		->with('category')
 		->when(request('category'), fn ($query, $category_id)  => $query->where('category_id', $category_id))
-		->when(request('search'), fn ($query) => $query->search())
-		->when(request('status') !== false,  fn ($query) => $query->status())
 		->when(request('order_by'), fn ($query, $field) => $query->orderBy($field, request('direction')))
-		->paginate();
+		->when(request('status') !== null,  fn ($query) => $query->status())
+		->when(request('search'), fn ($query) => $query->search())
+		->paginate(5);
 
 	$products_count = Product::getStatusCounts();
 

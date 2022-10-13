@@ -50,7 +50,7 @@
 			/>
 		</div>
 
-		<LayoutSection class="bg-white rounded-lg">
+	<LayoutSection class="bg-white rounded-lg  divide-y">
 			<div class="md:flex md:space-x-4 mb-4">
 				<div class="w-1/3 relative flex-1">
 					<FormInputText
@@ -108,7 +108,7 @@
 			</div>
 
 			<div
-				class="bg-white border-slate-200 overflow-hidden border-b shadow-sm dark:bg-[#11183C] dark:border-slate-700"
+				class="bg-white border-slate-200 overflow-hidden shadow-sm dark:bg-[#11183C] dark:border-slate-700"
 				v-for="product in props.products.data"
 				:key="product.id"
 			>

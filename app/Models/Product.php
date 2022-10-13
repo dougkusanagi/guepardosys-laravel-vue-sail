@@ -13,16 +13,14 @@ class Product extends Model
 {
 	use HasFactory;
 
-	protected $orderBy = 'id';
-
-	protected static function boot()
-	{
-		parent::boot();
-
-		static::addGlobalScope('order', function (Builder $builder) {
-			$builder->orderBy('name', 'asc');
-		});
-	}
+	//protected static function boot()
+	//{
+	//	parent::boot();
+	//
+	//	static::addGlobalScope('order', function (Builder $builder) {
+	//		$builder->orderBy('name', 'asc');
+	//	});
+	//}
 
 	public function category(): BelongsTo
 	{
