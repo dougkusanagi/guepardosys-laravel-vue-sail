@@ -5,22 +5,22 @@ namespace App\Models;
 use App\Enums\ProductStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Builder;
 
 class Product extends Model
 {
 	use HasFactory;
 
-	//protected static function boot()
-	//{
-	//	parent::boot();
-	//
-	//	static::addGlobalScope('order', function (Builder $builder) {
-	//		$builder->orderBy('name', 'asc');
-	//	});
-	//}
+	// protected static function boot()
+	// {
+	// 	parent::boot();
+
+	// 	static::addGlobalScope('order', function (Builder $builder) {
+	// 		$builder->orderBy('name', 'asc');
+	// 	});
+	// }
 
 	public function category(): BelongsTo
 	{
@@ -46,19 +46,19 @@ class Product extends Model
 	public function scopeFilter($query)
 	{
 		return $query
-			// ->search()
 			->when(request('category'), fn ($query, $category_id)  => $query->where('category_id', $category_id))
 			->when(request('order_by'), fn ($query, $field) => $query->orderBy($field, request('direction')))
-			->status(request('status'));
+			->when(request('status') !== null,  fn ($query) => $query->status())
+			->when(request('search'), fn ($query) => $query->search());
 	}
 
 	public static function getStatusCounts()
 	{
-		return self::query()
-		->selectRaw("count(IF(status = ".ProductStatusEnum::Active.", 1, null)) as totalActive")
-		->selectRaw("count(IF(status = ".ProductStatusEnum::Inactive.", 1, null)) as totalInactive")
-		->selectRaw("count(IF(status = ".ProductStatusEnum::Waiting.", 1, null)) as totalWaiting")
-		->selectRaw("count(*) as total")
-		->first();
+		return self::toBase()
+			->selectRaw("count(IF(status = " . ProductStatusEnum::Active . ", 1, null)) as totalActive")
+			->selectRaw("count(IF(status = " . ProductStatusEnum::Inactive . ", 1, null)) as totalInactive")
+			->selectRaw("count(IF(status = " . ProductStatusEnum::Waiting . ", 1, null)) as totalWaiting")
+			->selectRaw("count(*) as total")
+			->first();
 	}
 }
