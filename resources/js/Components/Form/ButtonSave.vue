@@ -1,5 +1,5 @@
 <template>
-	<LayoutButton type="submit" tag="button">
+	<LayoutButton submit>
 		<template #before><SaveIcon /></template>
 		Salvar
 	</LayoutButton>

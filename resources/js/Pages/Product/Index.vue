@@ -73,8 +73,6 @@
 				<div class="w-1/3 relative flex-1">
 					<FormInputText
 						placeholder="Digite o nome do produto..."
-						name="stock_virtual"
-						id="stock_virtual"
 						type="search"
 						v-model="queryParams.search"
 					/>
