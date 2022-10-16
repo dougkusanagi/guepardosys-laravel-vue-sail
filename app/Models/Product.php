@@ -13,7 +13,7 @@ class Product extends Model
 {
 	use HasFactory;
 
-	const per_page = 25;
+	public $perPage = 25;
 
 	// protected static function boot()
 	// {

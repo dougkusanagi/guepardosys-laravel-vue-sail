@@ -22,13 +22,13 @@ class ProductController extends Controller
 			'product_pages' =>
 				Product::with('category')
 					->filter()
-					->paginate(request('per_page') ?? Product::per_page)
+					->paginate(request('per_page'))
 					->withQueryString(),
 			'product_status_array' => ProductStatusEnum::asSelectArray(),
 			'product_status_all' => $this->getProductStatusAll(),
 			'products_count' => Product::getStatusCounts(),
 			'categories_all' => Category::all(),
-			'per_page' => request('per_page') ?? Product::per_page,
+			'per_page' => request('per_page', (new Product)->perPage),
 		]);
 	}
 

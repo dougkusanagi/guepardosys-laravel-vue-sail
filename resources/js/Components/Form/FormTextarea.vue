@@ -1,10 +1,10 @@
 <template>
 	<textarea
-		class="textarea textarea-bordered dark:bg-[#0D0C22]"
+		class="textarea textarea-bordered dark:bg-[#0D0C22] border"
 		:class="
 			(classes,
 			{
-				'text-slate-700 placeholder-gray-400 border-gray-300 focus:ring-indigo-600 focus:border-indigo-600 dark:border-none dark:text-slate-100 dark:placeholder-gray-600':
+				'text-slate-700 placeholder-gray-400 border-gray-300 focus:ring-indigo-600 focus:border-indigo-600 dark:border-slate-800 dark:text-slate-100 dark:placeholder-gray-600':
 					!variant.length,
 				'text-emerald-700 placeholder-emerald-400 border-emerald-300 focus:ring-emerald-600 focus:border-emerald-600':
 					variant === 'success',
