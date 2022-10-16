@@ -18,19 +18,17 @@ class ProductController extends Controller
 	 */
 	public function index()
 	{
-		$per_page = request('per_page') ?? "25";
-
 		return inertia('Product/Index', [
 			'product_pages' =>
 				Product::with('category')
 					->filter()
-					->paginate($per_page)
+					->paginate(request('per_page') ?? Product::per_page)
 					->withQueryString(),
 			'product_status_array' => ProductStatusEnum::asSelectArray(),
 			'product_status_all' => $this->getProductStatusAll(),
 			'products_count' => Product::getStatusCounts(),
 			'categories_all' => Category::all(),
-			'per_page' => $per_page,
+			'per_page' => request('per_page') ?? Product::per_page,
 		]);
 	}
 

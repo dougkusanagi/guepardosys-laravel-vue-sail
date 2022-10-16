@@ -162,17 +162,17 @@
 						<div
 							class="flex items-center mr-4"
 							:class="{
-								'text-emerald-400': product.status == 'active',
-								'text-red-400': product.status == 'inactive',
-								'text-yellow-500': product.status == 'waiting',
+								'text-emerald-400': product.status == product_status_all.Active,
+								'text-red-400': product.status == product_status_all.Inactive,
+								'text-yellow-500': product.status == product_status_all.Waiting,
 							}"
 						>
 							<div
 								class="w-2 h-2 rounded-full mr-2"
 								:class="{
-									'bg-emerald-400': product.status == 'active',
-									'bg-red-400': product.status == 'inactive',
-									'bg-yellow-500': product.status == 'waiting',
+									'bg-emerald-400': product.status == product_status_all.Active,
+									'bg-red-400': product.status == product_status_all.Inactive,
+									'bg-yellow-500': product.status == product_status_all.Waiting,
 								}"
 							></div>
 							{{ product_status_array[product.status] }}

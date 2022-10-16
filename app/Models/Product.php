@@ -13,6 +13,8 @@ class Product extends Model
 {
 	use HasFactory;
 
+	const per_page = 25;
+
 	// protected static function boot()
 	// {
 	// 	parent::boot();
