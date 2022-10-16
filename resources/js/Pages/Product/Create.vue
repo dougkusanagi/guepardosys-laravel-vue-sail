@@ -5,7 +5,14 @@
 
 			<template #append>
 				<div class="flex justify-between md:flex-1 md:justify-end">
-					<ButtonGoBack />
+					<LayoutButton :href="route('product.index')" outline>
+						<template #before>
+							<ChevronLeft />
+						</template>
+
+						Voltar
+					</LayoutButton>
+
 					<ButtonSave class="w-52 flex lg:hidden ml-4" />
 				</div>
 			</template>
@@ -101,7 +108,9 @@
 							<FormLabel for="barcode">
 								Código de Barras
 
-								<span class="cursor-pointer ml-2" title="EAN-9 | EAN-13 | CODE39"
+								<span
+									class="cursor-pointer ml-2"
+									title="EAN-9 | EAN-13 | CODE39"
 									><InfoCircle
 								/></span>
 							</FormLabel>
@@ -290,7 +299,6 @@ import { Inertia } from "@inertiajs/inertia";
 import { reactive, watch, computed } from "vue";
 import { slugfy } from "@/helpers/string";
 import FormLabel from "@/Components/Form/FormLabel.vue";
-import ButtonGoBack from "@/Components/ButtonGoBack.vue";
 import LayoutHeader from "@/Components/LayoutHeader.vue";
 import ButtonSave from "@/Components/Form/ButtonSave.vue";
 import FormSelect from "@/Components/Form/FormSelect.vue";
@@ -304,6 +312,7 @@ import CameraIcon from "@/Icons/Camera.vue";
 import InfoCircle from "@/Icons/InfoCircle.vue";
 import StackCircleIcon from "@/Icons/StackCircle.vue";
 import InformationCircleIcon from "@/Icons/InformationCircle.vue";
+import LayoutButton from "@/Components/LayoutButton.vue";
 
 const breadcrumbsLinks = [
 	{
@@ -369,12 +378,12 @@ const data = reactive({
 	length: "",
 	keywords: "",
 	status: "",
-	model: ""
+	model: "",
 });
 
-watch(data, new_data => data.slug = slugfy(new_data.name));
+watch(data, (new_data) => (data.slug = slugfy(new_data.name)));
 
 function submit() {
-	Inertia.post(route('product.store'), data);
+	Inertia.post(route("product.store"), data);
 }
 </script>

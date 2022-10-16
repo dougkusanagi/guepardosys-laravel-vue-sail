@@ -3,8 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 
-Route::get('/', fn () => inertia('Dashboard'))->name('dashboard');
-//Route::get('/', fn () => redirect()->route('product.index'))->name('dashboard');
+// Route::get('/', fn () => inertia('Dashboard'))->name('dashboard');
+Route::get('/', fn () => redirect()->route('product.index'))->name('dashboard');
 
 Route::get('/product', [ProductController::class, 'index'])->name('product.index');
 Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');

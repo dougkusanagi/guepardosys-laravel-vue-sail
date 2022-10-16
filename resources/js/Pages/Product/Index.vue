@@ -13,14 +13,6 @@
 						</template>
 						Cadastrar Produto
 					</LayoutButton>
-
-					<LayoutButton outline>
-						<template #before>
-							<ChevronLeft />
-						</template>
-
-						Voltar
-					</LayoutButton>
 				</div>
 			</template>
 		</LayoutHeader>
@@ -205,7 +197,6 @@ import ArrowUp from "@/Icons/ArrowUp.vue";
 import MagnifyingGlass from "@/Icons/MagnifyingGlass.vue";
 import TabsFilterByStatusLink from "@/Components/TabsFilterByStatusLink.vue";
 import LayoutHeader from "@/Components/LayoutHeader.vue";
-import ButtonGoBack from "@/Components/ButtonGoBack.vue";
 import LayoutSection from "@/Components/LayoutSection.vue";
 import FormInputText from "@/Components/Form/FormInputText.vue";
 import FormSelect from "@/Components/Form/FormSelect.vue";
@@ -226,19 +217,15 @@ const props = defineProps({
 
 const breadcrumbsLinks = [
 	{
-		label: "Dashboard",
+		label: "Início",
 		link: route("dashboard"),
 		isHome: true,
 	},
 	{
 		label: "Produtos",
-		link: route("product.index", {
-			order_by: "name",
-			direction: "asc",
-		}),
 	},
 	{
-		label: "Lista",
+		label: "Listar",
 	},
 ];
 
