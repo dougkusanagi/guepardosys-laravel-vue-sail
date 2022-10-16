@@ -33,7 +33,7 @@ return new class extends Migration
             $table->float('height')->default(0);
             $table->float('width')->default(0);
             $table->float('length')->default(0);
-            $table->string('brand')->nullable();
+            $table->string('brand')->nullable()->default('GuepardoSys');
             $table->integer('availability')->default(0);
             $table->text('keywords')->nullable();
             $table->integer('status')->default(ProductStatusEnum::Active);

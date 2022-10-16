@@ -18,12 +18,19 @@ class ProductController extends Controller
 	 */
 	public function index()
 	{
+		$per_page = request('per_page') ?? "25";
+
 		return inertia('Product/Index', [
-			'product_pages' => Product::with('category')->filter()->paginate(20)->withQueryString(),
+			'product_pages' =>
+				Product::with('category')
+					->filter()
+					->paginate($per_page)
+					->withQueryString(),
 			'product_status_array' => ProductStatusEnum::asSelectArray(),
 			'product_status_all' => $this->getProductStatusAll(),
 			'products_count' => Product::getStatusCounts(),
 			'categories_all' => Category::all(),
+			'per_page' => $per_page,
 		]);
 	}
 
@@ -49,7 +56,9 @@ class ProductController extends Controller
 		$product_status_enum = collect(ProductStatusEnum::asSelectArray())
 			->map(fn ($status, $index) => ['id' => $index, 'name' => $status]);
 
-		return inertia('Product/Create', compact('product_model_prefixes', 'product_status_enum'));
+		return inertia('Product/Create', compact([
+			'product_model_prefixes', 'product_status_enum'
+		]));
 	}
 
 	/**
@@ -60,7 +69,7 @@ class ProductController extends Controller
 	 */
 	public function store(StoreProductRequest $request)
 	{
-		//
+		dd($request->all());
 	}
 
 	/**

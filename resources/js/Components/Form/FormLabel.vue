@@ -1,6 +1,6 @@
 <template>
 	<label
-		class="block mb-2 text-sm"
+		class="flex items-center mb-2 text-sm"
 		:for="id"
 		:class="
 			(classes,

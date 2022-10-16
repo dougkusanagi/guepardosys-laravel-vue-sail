@@ -3,19 +3,24 @@
 
 	<div class="pt-12 px-6">
 		<LayoutHeader :breadcrumbs-links="breadcrumbsLinks">
-			<template #header-title>
-				Lista de Produtos
-				<Link
-					class="w-8 h-8 flex items-center justify-center btn-primary text-white rounded-lg rounded-br-none mr-12 ml-3 p-2"
-					:href="route('product.add') + '#card-images'"
-				>
-					<PlusIcon />
-				</Link>
-			</template>
+			<template #header-title> Lista de Produtos </template>
 
 			<template #append>
 				<div class="flex justify-between md:flex-1 md:justify-end">
-					<ButtonGoBack />
+					<LayoutButton class="mr-2" :href="route('product.create')">
+						<template #before>
+							<PlusIcon />
+						</template>
+						Cadastrar Produto
+					</LayoutButton>
+
+					<LayoutButton outline>
+						<template #before>
+							<ChevronLeft />
+						</template>
+
+						Voltar
+					</LayoutButton>
 				</div>
 			</template>
 		</LayoutHeader>
@@ -50,8 +55,17 @@
 			/>
 		</div>
 
-		<div class="flex justify-end">
-			<Pagination :pages="props.product_pages" v-bind="props" />
+		<div class="flex gap-4 justify-between">
+			<PaginationPerPage :queryParams="queryParams">
+				<option value="10">10</option>
+				<option value="25">25</option>
+				<option value="50">50</option>
+				<option value="100">100</option>
+			</PaginationPerPage>
+
+			<div class="">
+				<PaginationPages :pages="props.product_pages" />
+			</div>
 		</div>
 
 		<LayoutSection class="bg-white rounded-lg divide-y">
@@ -67,10 +81,15 @@
 				</div>
 
 				<div class="w-1/3">
-					<FormSelect
-						v-model="queryParams.category"
-						:options="categories_all_complete"
-					/>
+					<FormSelect v-model="queryParams.category">
+						<option
+							v-for="option in categories_all_complete"
+							:value="option.id"
+							:key="option.id"
+						>
+							{{ option.name }}
+						</option>
+					</FormSelect>
 				</div>
 
 				<span
@@ -165,8 +184,17 @@
 			</div>
 		</LayoutSection>
 
-		<div class="flex justify-end">
-			<Pagination :pages="props.product_pages" v-bind="props" />
+		<div class="flex gap-4 justify-between">
+			<PaginationPerPage :queryParams="queryParams" class>
+				<option value="10">10</option>
+				<option value="25">25</option>
+				<option value="50">50</option>
+				<option value="100">100</option>
+			</PaginationPerPage>
+
+			<div class="">
+				<PaginationPages :pages="props.product_pages" />
+			</div>
 		</div>
 	</div>
 </template>
@@ -179,12 +207,14 @@ import ArrowUp from "@/Icons/ArrowUp.vue";
 import MagnifyingGlass from "@/Icons/MagnifyingGlass.vue";
 import TabsFilterByStatusLink from "@/Components/TabsFilterByStatusLink.vue";
 import LayoutHeader from "@/Components/LayoutHeader.vue";
-import Pagination from "@/Components/Pagination.vue";
 import ButtonGoBack from "@/Components/ButtonGoBack.vue";
 import LayoutSection from "@/Components/LayoutSection.vue";
-import FormLabel from "@/Components/Form/FormLabel.vue";
 import FormInputText from "@/Components/Form/FormInputText.vue";
 import FormSelect from "@/Components/Form/FormSelect.vue";
+import PaginationPerPage from "@/Components/PaginationPerPage.vue";
+import PaginationPages from "@/Components/PaginationPages.vue";
+import LayoutButton from "@/Components/LayoutButton.vue";
+import ChevronLeft from "@/Icons/ChevronLeft.vue";
 
 const props = defineProps({
 	product_pages: Object,
@@ -193,6 +223,7 @@ const props = defineProps({
 	product_status_array: Array,
 	product_status_all: Object,
 	page: String,
+	per_page: String,
 });
 
 const breadcrumbsLinks = [
@@ -219,6 +250,7 @@ const queryParams = reactive({
 	direction: "asc",
 	status: "",
 	category: "",
+	per_page: props.per_page,
 });
 
 watch(

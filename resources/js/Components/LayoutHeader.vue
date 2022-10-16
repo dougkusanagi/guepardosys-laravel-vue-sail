@@ -3,7 +3,7 @@
 		<div class="flex flex-col mb-2">
 			<Breadcrumb :items="breadcrumbsLinks" />
 
-			<h1 class="flex font-bold text-3xl mb-4 md:mb-0">
+			<h1 class="flex items-center font-bold text-3xl mb-4 md:mb-0">
 				<slot name="header-title" />
 			</h1>
 		</div>

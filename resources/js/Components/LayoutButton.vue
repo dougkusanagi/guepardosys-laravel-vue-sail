@@ -1,6 +1,6 @@
 <template>
 	<component
-		class="btn font-normal text-xs gap-2 border-2"
+		class="btn text-xs gap-2 border-2 rounded-br-none"
 		:class="{
 			'btn-primary': variant === 'primary',
 			'btn-secondary': variant === 'secondary',
@@ -15,13 +15,19 @@
 		:type="type"
 		:href="href"
 	>
-		<slot name="before" class="-ml-2" />
-		<span :class="{
-			'dark:text-white': variant === 'primary',
-			'text-white': (variant === 'primary' && !outline),
-		}">
+		<div class="ml-[-0.2rem]">
+			<slot name="before" />
+		</div>
+
+		<span
+			:class="{
+				'dark:text-white': variant === 'primary',
+				'text-white': variant === 'primary' && !outline,
+			}"
+		>
 			<slot />
 		</span>
+
 		<slot name="after" />
 	</component>
 </template>
@@ -30,27 +36,24 @@
 import { computed } from "vue";
 
 const props = defineProps({
-	tag: {
-		type: String,
-		default: 'Link'
-	},
 	href: {
 		type: String,
-		default: ''
-	},
-	type: {
-		type: String,
-		default: ''
+		default: "",
 	},
 	variant: {
 		type: String,
-		default: 'primary'
+		default: "primary",
 	},
 	outline: {
 		type: Boolean,
-		default: false
+		default: false,
 	},
+	submit: {
+		type: Boolean,
+		default: false
+	}
 });
 
-const tag = computed(() => props.tag)
+const tag	= computed(() => props.submit ? "button" : "Link");
+const type = computed(() => props.submit ? "submit" : "");
 </script>

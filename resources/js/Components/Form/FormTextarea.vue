@@ -1,6 +1,6 @@
 <template>
 	<textarea
-		class="textarea textarea-bordered h-24 dark:bg-[#0D0C22]"
+		class="textarea textarea-bordered dark:bg-[#0D0C22]"
 		:class="
 			(classes,
 			{
@@ -36,7 +36,10 @@
 const props = defineProps({
 	autocomplete: { type: String, default: "on" }, // on|off
 	autofocus: Boolean,
-	rows: [String, Number],
+	rows: {
+		type: [String, Number],
+		default: 8
+	},
 	cols: [String, Number],
 	classes: { type: String, default: "" },
 	disabled: Boolean,

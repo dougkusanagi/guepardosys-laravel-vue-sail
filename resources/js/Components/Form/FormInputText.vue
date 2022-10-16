@@ -1,10 +1,10 @@
 <template>
 	<input
-		class="block w-full dark:bg-[#0D0C22] border px-3 py-2 transition duration-100 ease-in-out rounded-lg shadow-sm focus:ring-2 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed h-12"
+		class="block w-full px-3 py-2 transition duration-100 ease-in-out rounded-lg shadow-sm focus:ring-2 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed h-12 dark:bg-[#0D0C22] border"
 		:class="
 			(classes,
 			{
-				'text-slate-700 placeholder-gray-400 border-gray-300 focus:ring-indigo-600 focus:border-indigo-600 dark:border-none dark:text-slate-100 dark:placeholder-gray-600':
+				'text-slate-700 placeholder-gray-400 border-gray-300 dark:border-slate-800 focus:ring-indigo-600 focus:border-indigo-600 dark:text-slate-100 dark:placeholder-gray-600':
 					!variant.length,
 				'text-emerald-700 placeholder-emerald-400 border-emerald-300 focus:ring-emerald-600 focus:border-emerald-600 border-2':
 					variant === 'success',
@@ -13,8 +13,8 @@
 					'appearance-none': type === 'number'
 			})
 		"
-		@input="(e) => $emit('update:modelValue', e.target.value)"
-		@change="(e) => $emit('change:modelValue', e.target.value)"
+		@input="e => $emit('update:modelValue', e.target.value)"
+		@change="e => $emit('change:modelValue', e.target.value)"
 		:value="modelValue"
 		:id="id"
 		:name="name"

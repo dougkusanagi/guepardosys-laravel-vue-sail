@@ -34,16 +34,15 @@ class Product extends Model
 
 	public function scopeStatus(Builder $query): Builder
 	{
-		if (request('status') === null) return $query;
 		return $query->where('status', request('status'));
 	}
 
-	public function scopeSearch($query)
+	public function scopeSearch(Builder $query): Builder
 	{
 		return $query->where('name', 'like', request('search') . '%');
 	}
 
-	public function scopeFilter($query)
+	public function scopeFilter(Builder $query): Builder
 	{
 		return $query
 			->when(request('category'), fn ($query, $category_id)  => $query->where('category_id', $category_id))
