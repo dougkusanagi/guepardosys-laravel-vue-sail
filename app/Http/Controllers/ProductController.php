@@ -20,10 +20,10 @@ class ProductController extends Controller
 	{
 		return inertia('Product/Index', [
 			'product_pages' =>
-				Product::with('category')
-					->filter()
-					->paginate(request('per_page'))
-					->withQueryString(),
+			Product::with('category')
+				->filter()
+				->paginate(request('per_page'))
+				->withQueryString(),
 			'product_status_array' => ProductStatusEnum::asSelectArray(),
 			'product_status_all' => $this->getProductStatusAll(),
 			'products_count' => Product::getStatusCounts(),
@@ -49,14 +49,12 @@ class ProductController extends Controller
 	 */
 	public function create()
 	{
-		$product_model_prefixes = ProductModelPrefix::all();
-
-		$product_status_enum = collect(ProductStatusEnum::asSelectArray())
-			->map(fn ($status, $index) => ['id' => $index, 'name' => $status]);
-
-		return inertia('Product/Create', compact([
-			'product_model_prefixes', 'product_status_enum'
-		]));
+		return inertia('Product/Create', [
+			'product_model_prefixes' => ProductModelPrefix::all(),
+			'product_status_enum' => collect(ProductStatusEnum::asSelectArray())
+				->map(fn ($status, $index) => ['id' => $index, 'name' => $status]),
+			'categories_all' => Category::all(),
+		]);
 	}
 
 	/**
@@ -67,7 +65,13 @@ class ProductController extends Controller
 	 */
 	public function store(StoreProductRequest $request)
 	{
-		dd($request->all());
+		// dd($request->all());
+
+		$product = new Product;
+
+		$product->create($request->validated());
+
+		to_route('product.index')->with('success', 'Produto cadastrado');
 	}
 
 	/**

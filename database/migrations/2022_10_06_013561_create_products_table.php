@@ -5,7 +5,6 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Models\Category;
-use App\Models\ProductModel;
 
 return new class extends Migration
 {
@@ -27,16 +26,16 @@ return new class extends Migration
             $table->integer('stock_local')->default(0);
             $table->integer('stock_local_min')->default(0);
             $table->integer('stock_virtual')->default(0);
-            $table->bigInteger('barcode')->nullable();
-            $table->string('ncm')->nullable();
+            $table->bigInteger('barcode')->unique()->nullable();
+            $table->integer('ncm')->nullable();
             $table->float('weight')->default(0);
             $table->float('height')->default(0);
             $table->float('width')->default(0);
             $table->float('length')->default(0);
-            $table->string('brand')->nullable()->default('GuepardoSys');
             $table->integer('availability')->default(0);
             $table->text('keywords')->nullable();
             $table->integer('status')->default(ProductStatusEnum::Active);
+            $table->string('brand')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

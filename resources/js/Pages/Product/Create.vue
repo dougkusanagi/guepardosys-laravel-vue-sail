@@ -36,8 +36,8 @@
 				<LayoutSection id="section-basic-info">
 					<template #header>Informações</template>
 
-					<div class="md:flex md:space-x-4 mb-4">
-						<div class="w-full md:w-1/2">
+					<div class="md:flex md:space-x-4">
+						<div class="w-full md:w-1/2 mb-4">
 							<FormLabel for="name">Nome</FormLabel>
 
 							<FormInputText
@@ -48,7 +48,7 @@
 							/>
 						</div>
 
-						<div class="w-full md:w-1/2">
+						<div class="w-full md:w-1/2 mb-4">
 							<FormLabel for="slug">Slug</FormLabel>
 
 							<FormInputText
@@ -60,8 +60,35 @@
 						</div>
 					</div>
 
-					<div class="md:flex md:space-x-4 mb-4">
-						<div class="w-full md:w-1/3">
+					<div class="md:flex md:space-x-4">
+						<div class="w-full md:w-1/2 mb-4">
+							<FormLabel for="category_id">Categoria</FormLabel>
+
+							<FormSelect id="category_id" v-model="data.category_id">
+								<option
+									v-for="option in categories_all_complete"
+									:value="option.id"
+									:key="option.id"
+								>
+									{{ option.name }}
+								</option>
+							</FormSelect>
+						</div>
+
+						<div class="w-full md:w-1/2 mb-4">
+							<FormLabel for="brand">Marca</FormLabel>
+
+							<FormInputText
+								type="text"
+								placeholder="ex: GuepardoSys"
+								id="brand"
+								v-model="data.brand"
+							/>
+						</div>
+					</div>
+
+					<div class="md:flex md:space-x-4">
+						<div class="w-full md:w-1/3 mb-4">
 							<FormLabel for="price">Preço</FormLabel>
 
 							<FormInputText
@@ -74,10 +101,10 @@
 							/>
 						</div>
 
-						<div class="w-full md:w-1/3">
-							<FormLabel for="model">Modelo</FormLabel>
+						<div class="w-full md:w-1/3 mb-4">
+							<FormLabel for="productModel">Modelo</FormLabel>
 
-							<FormSelect id="model" v-model="data.model">
+							<FormSelect id="productModel" v-model="data.productModel">
 								<option
 									v-for="option in product_model_prefixes"
 									:value="option.id"
@@ -88,7 +115,7 @@
 							</FormSelect>
 						</div>
 
-						<div class="w-full md:w-1/3">
+						<div class="w-full md:w-1/3 mb-4">
 							<FormLabel for="status">Status</FormLabel>
 
 							<FormSelect id="status" v-model="data.status">
@@ -103,8 +130,8 @@
 						</div>
 					</div>
 
-					<div class="md:flex md:space-x-4 mb-4">
-						<div class="w-full md:w-1/2">
+					<div class="md:flex md:space-x-4">
+						<div class="w-full md:w-1/2 mb-4">
 							<FormLabel for="barcode">
 								Código de Barras
 
@@ -123,7 +150,7 @@
 							/>
 						</div>
 
-						<div class="w-full md:w-1/2">
+						<div class="w-full md:w-1/2 mb-4">
 							<FormLabel for="ncm">NCM</FormLabel>
 
 							<FormInputText
@@ -134,7 +161,7 @@
 							/>
 						</div>
 
-						<div class="w-full md:w-1/2">
+						<div class="w-full md:w-1/2 mb-4">
 							<FormLabel for="availability">Disponibilidade (dias)</FormLabel>
 
 							<FormInputText
@@ -146,8 +173,8 @@
 						</div>
 					</div>
 
-					<div class="md:flex md:space-x-4 mb-4">
-						<div class="w-full md:w-1/2">
+					<div class="md:flex md:space-x-4">
+						<div class="w-full md:w-1/2 mb-4">
 							<div class="form-control">
 								<FormLabel for="description">Descrição Simples</FormLabel>
 
@@ -160,7 +187,7 @@
 							</div>
 						</div>
 
-						<div class="w-full md:w-1/2">
+						<div class="w-full md:w-1/2 mb-4">
 							<div class="form-control">
 								<FormLabel for="description_html">Descrição HTML</FormLabel>
 
@@ -174,8 +201,8 @@
 						</div>
 					</div>
 
-					<div class="md:flex md:space-x-4 mb-4">
-						<div class="w-full">
+					<div class="md:flex md:space-x-4">
+						<div class="w-full mb-4">
 							<div class="form-control">
 								<FormLabel for="keywords">Palavras chave</FormLabel>
 
@@ -193,8 +220,8 @@
 				<LayoutSection id="section-stock">
 					<template #header>Estoque</template>
 
-					<div class="md:flex md:space-x-4 mb-4">
-						<div class="w-full md:w-1/3">
+					<div class="md:flex md:space-x-4">
+						<div class="w-full md:w-1/3 mb-4">
 							<FormLabel for="stock_local">Estoque Local</FormLabel>
 
 							<FormInputText
@@ -206,7 +233,7 @@
 							/>
 						</div>
 
-						<div class="w-full md:w-1/3">
+						<div class="w-full md:w-1/3 mb-4">
 							<FormLabel for="stock_local_min">Estoque Local Mín.</FormLabel>
 
 							<FormInputText
@@ -218,7 +245,7 @@
 							/>
 						</div>
 
-						<div class="w-full md:w-1/3">
+						<div class="w-full md:w-1/3 mb-4">
 							<FormLabel for="stock_virtual">Estoque Virtual</FormLabel>
 
 							<FormInputText
@@ -235,8 +262,8 @@
 				<LayoutSection id="section-sizes">
 					<template #header>Medidas</template>
 
-					<div class="md:flex md:space-x-4 mb-4">
-						<div class="w-full lg:w-1/4">
+					<div class="md:flex md:space-x-4">
+						<div class="w-full lg:w-1/4 mb-4">
 							<FormLabel for="width">Largura (cm)</FormLabel>
 
 							<FormInputText
@@ -249,7 +276,7 @@
 							/>
 						</div>
 
-						<div class="w-full lg:w-1/4">
+						<div class="w-full lg:w-1/4 mb-4">
 							<FormLabel for="height">Altura (cm)</FormLabel>
 
 							<FormInputText
@@ -262,7 +289,7 @@
 							/>
 						</div>
 
-						<div class="w-full lg:w-1/4">
+						<div class="w-full lg:w-1/4 mb-4">
 							<FormLabel for="length">Comprimento (cm)</FormLabel>
 
 							<FormInputText
@@ -275,7 +302,7 @@
 							/>
 						</div>
 
-						<div class="w-full lg:w-1/4">
+						<div class="w-full lg:w-1/4 mb-4">
 							<FormLabel for="weight">Peso (g)</FormLabel>
 
 							<FormInputText
@@ -313,10 +340,11 @@ import InfoCircle from "@/Icons/InfoCircle.vue";
 import StackCircleIcon from "@/Icons/StackCircle.vue";
 import InformationCircleIcon from "@/Icons/InformationCircle.vue";
 import LayoutButton from "@/Components/LayoutButton.vue";
+import ChevronLeft from "@/Icons/ChevronLeft.vue";
 
 const breadcrumbsLinks = [
 	{
-		label: "Dashboard",
+		label: "Início",
 		link: route("dashboard"),
 		isHome: true,
 	},
@@ -355,21 +383,23 @@ const sidenavScrolltoLinks = [
 	},
 ];
 
-defineProps({
+const props = defineProps({
 	product_model_prefixes: Array,
 	product_status_enum: Array,
+	categories_all: Array,
 });
 
 const data = reactive({
+	category_id: "",
 	name: "",
 	slug: "",
 	price: "",
 	description: "",
+	description_html: "",
 	availability: "",
 	stock_local: "",
-	stock_virtual: "",
 	stock_local_min: "",
-	description_html: "",
+	stock_virtual: "",
 	barcode: "",
 	ncm: "",
 	weight: "",
@@ -378,10 +408,15 @@ const data = reactive({
 	length: "",
 	keywords: "",
 	status: "",
-	model: "",
+	brand: "",
+	productModel: "",
 });
 
 watch(data, (new_data) => (data.slug = slugfy(new_data.name)));
+
+const categories_all_complete = computed(() => {
+	return [{ name: "Escolha a categoria", id: "" }, ...props.categories_all];
+});
 
 function submit() {
 	Inertia.post(route("product.store"), data);

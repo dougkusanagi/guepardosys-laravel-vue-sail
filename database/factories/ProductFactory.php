@@ -38,7 +38,7 @@ class ProductFactory extends Factory
             'height' => fake()->randomNumber(4, true),
             'width' => fake()->randomNumber(4, true),
             'length' => fake()->randomNumber(4, true),
-            'brand' => 'GuepardoSys',
+            'brand' => env('APP_NAME'),
             'availability' => fake()->randomDigit(),
             'keywords' => implode(',', fake()->words(5)),
         ];

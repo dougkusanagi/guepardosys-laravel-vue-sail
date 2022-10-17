@@ -55,7 +55,7 @@
 				<option value="100">100</option>
 			</PaginationPerPage>
 
-			<div class="">
+			<div>
 				<PaginationPages :pages="props.product_pages" />
 			</div>
 		</div>
@@ -182,7 +182,7 @@
 				<option value="100">100</option>
 			</PaginationPerPage>
 
-			<div class="">
+			<div>
 				<PaginationPages :pages="props.product_pages" />
 			</div>
 		</div>
