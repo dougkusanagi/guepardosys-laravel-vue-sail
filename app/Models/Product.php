@@ -13,8 +13,10 @@ class Product extends Model
 {
 	use HasFactory;
 
-	public $perPage = 25;
-	// protected $guarded = [];
+	public $perPage = "25";
+	protected $guarded = [];
+	// protected $fillable = ['category_id'];
+
 
 	// protected static function boot()
 	// {

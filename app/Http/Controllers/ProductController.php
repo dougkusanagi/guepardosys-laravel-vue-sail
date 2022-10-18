@@ -8,6 +8,9 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Models\ProductModelPrefix;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductModel;
+use App\Services\ProductModelService;
+use Illuminate\Support\Facades\Redirect;
 
 class ProductController extends Controller
 {
@@ -20,10 +23,11 @@ class ProductController extends Controller
 	{
 		return inertia('Product/Index', [
 			'product_pages' =>
-			Product::with('category')
-				->filter()
-				->paginate(request('per_page'))
-				->withQueryString(),
+				Product::query()
+					->with('category')
+					->filter()
+					->paginate(request('per_page'))
+					->withQueryString(),
 			'product_status_array' => ProductStatusEnum::asSelectArray(),
 			'product_status_all' => $this->getProductStatusAll(),
 			'products_count' => Product::getStatusCounts(),
@@ -65,13 +69,16 @@ class ProductController extends Controller
 	 */
 	public function store(StoreProductRequest $request)
 	{
-		// dd($request->all());
+		$product = Product::create($request->validated());
 
-		$product = new Product;
+		ProductModelService::register($product);
 
-		$product->create($request->validated());
-
-		to_route('product.index')->with('success', 'Produto cadastrado');
+		return redirect()
+			->route('product.index')
+			->with('success', [
+				'title' => 'Parabéns!',
+				'message' => 'Produto cadastrado com sucesso',
+			]);
 	}
 
 	/**

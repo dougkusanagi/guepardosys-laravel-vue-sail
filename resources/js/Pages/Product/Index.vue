@@ -47,7 +47,7 @@
 			/>
 		</div>
 
-		<div class="flex gap-4 justify-between">
+		<div class="flex gap-4 justify-between mb-6">
 			<PaginationPerPage :queryParams="queryParams">
 				<option value="10">10</option>
 				<option value="25">25</option>
@@ -174,7 +174,7 @@
 			</div>
 		</LayoutSection>
 
-		<div class="flex gap-4 justify-between">
+		<div class="flex gap-4 justify-between mb-6">
 			<PaginationPerPage :queryParams="queryParams" class>
 				<option value="10">10</option>
 				<option value="25">25</option>

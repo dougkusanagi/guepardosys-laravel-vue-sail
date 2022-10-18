@@ -1,6 +1,6 @@
 <template>
 	<!-- Need to include paginate()->withQueryString() in laravel response -->
-	<div class="btn-group mb-4">
+	<div class="btn-group">
 		<Component
 			class="btn border-slate"
 			:class="

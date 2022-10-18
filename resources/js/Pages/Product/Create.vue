@@ -13,7 +13,7 @@
 						Voltar
 					</LayoutButton>
 
-					<ButtonSave class="w-52 flex lg:hidden ml-4" />
+					<ButtonSave class="w-52 flex lg:hidden ml-4" :disabled="form.processing" />
 				</div>
 			</template>
 		</LayoutHeader>
@@ -44,7 +44,7 @@
 								placeholder="ex: Cartão de visitas"
 								id="name"
 								type="text"
-								v-model="data.name"
+								v-model="form.name"
 							/>
 						</div>
 
@@ -55,7 +55,7 @@
 								placeholder="ex: cartao-de-visitas"
 								id="slug"
 								type="text"
-								v-model="data.slug"
+								v-model="form.slug"
 							/>
 						</div>
 					</div>
@@ -64,7 +64,7 @@
 						<div class="w-full md:w-1/2 mb-4">
 							<FormLabel for="category_id">Categoria</FormLabel>
 
-							<FormSelect id="category_id" v-model="data.category_id">
+							<FormSelect id="category_id" v-model="form.category_id">
 								<option
 									v-for="option in categories_all_complete"
 									:value="option.id"
@@ -82,7 +82,7 @@
 								type="text"
 								placeholder="ex: GuepardoSys"
 								id="brand"
-								v-model="data.brand"
+								v-model="form.brand"
 							/>
 						</div>
 					</div>
@@ -97,14 +97,14 @@
 								id="price"
 								min="0"
 								step="0.01"
-								v-model="data.price"
+								v-model="form.price"
 							/>
 						</div>
 
 						<div class="w-full md:w-1/3 mb-4">
-							<FormLabel for="productModel">Modelo</FormLabel>
+							<FormLabel for="product_model_prefix_id">Modelo</FormLabel>
 
-							<FormSelect id="productModel" v-model="data.productModel">
+							<FormSelect id="product_model_prefix_id" v-model="form.product_model_prefix_id">
 								<option
 									v-for="option in product_model_prefixes"
 									:value="option.id"
@@ -118,7 +118,7 @@
 						<div class="w-full md:w-1/3 mb-4">
 							<FormLabel for="status">Status</FormLabel>
 
-							<FormSelect id="status" v-model="data.status">
+							<FormSelect id="status" v-model="form.status">
 								<option
 									v-for="option in product_status_enum"
 									:value="option.id"
@@ -146,7 +146,7 @@
 								placeholder="ex: 1876551881"
 								id="barcode"
 								type="number"
-								v-model="data.barcode"
+								v-model="form.barcode"
 							/>
 						</div>
 
@@ -157,7 +157,7 @@
 								placeholder="ex: 551881"
 								id="ncm"
 								type="number"
-								v-model="data.ncm"
+								v-model="form.ncm"
 							/>
 						</div>
 
@@ -168,7 +168,7 @@
 								placeholder="ex: 3"
 								id="availability"
 								type="number"
-								v-model="data.availability"
+								v-model="form.availability"
 							/>
 						</div>
 					</div>
@@ -182,7 +182,7 @@
 									placeholder="Descrição simples"
 									id="description"
 									rows="3"
-									v-model="data.description"
+									v-model="form.description"
 								/>
 							</div>
 						</div>
@@ -195,7 +195,7 @@
 									placeholder="<p>Descrição HTML</p>"
 									id="description_html"
 									rows="3"
-									v-model="data.description_html"
+									v-model="form.description_html"
 								/>
 							</div>
 						</div>
@@ -210,7 +210,7 @@
 									placeholder="vermelho, arte, teste"
 									id="keywords"
 									rows="2"
-									v-model="data.keywords"
+									v-model="form.keywords"
 								/>
 							</div>
 						</div>
@@ -229,7 +229,7 @@
 								placeholder="ex: 30"
 								id="stock_local"
 								min="0"
-								v-model="data.stock_local"
+								v-model="form.stock_local"
 							/>
 						</div>
 
@@ -241,7 +241,7 @@
 								placeholder="ex: 10"
 								id="stock_local_min"
 								min="0"
-								v-model="data.stock_local_min"
+								v-model="form.stock_local_min"
 							/>
 						</div>
 
@@ -253,7 +253,7 @@
 								placeholder="ex: 80"
 								id="stock_virtual"
 								min="0"
-								v-model="data.stock_virtual"
+								v-model="form.stock_virtual"
 							/>
 						</div>
 					</div>
@@ -272,7 +272,7 @@
 								id="width"
 								min="0"
 								step="0.01"
-								v-model="data.width"
+								v-model="form.width"
 							/>
 						</div>
 
@@ -285,7 +285,7 @@
 								id="height"
 								min="0"
 								step="0.01"
-								v-model="data.height"
+								v-model="form.height"
 							/>
 						</div>
 
@@ -298,7 +298,7 @@
 								id="length"
 								min="0"
 								step="0.01"
-								v-model="data.length"
+								v-model="form.length"
 							/>
 						</div>
 
@@ -311,7 +311,7 @@
 								id="weight"
 								min="0"
 								step="0.01"
-								v-model="data.weight"
+								v-model="form.weight"
 							/>
 						</div>
 					</div>
@@ -323,7 +323,7 @@
 
 <script setup>
 import { Inertia } from "@inertiajs/inertia";
-import { reactive, watch, computed } from "vue";
+import { watch, computed } from "vue";
 import { slugfy } from "@/helpers/string";
 import FormLabel from "@/Components/Form/FormLabel.vue";
 import LayoutHeader from "@/Components/LayoutHeader.vue";
@@ -341,6 +341,7 @@ import StackCircleIcon from "@/Icons/StackCircle.vue";
 import InformationCircleIcon from "@/Icons/InformationCircle.vue";
 import LayoutButton from "@/Components/LayoutButton.vue";
 import ChevronLeft from "@/Icons/ChevronLeft.vue";
+import { useForm } from "@inertiajs/inertia-vue3";
 
 const breadcrumbsLinks = [
 	{
@@ -389,7 +390,7 @@ const props = defineProps({
 	categories_all: Array,
 });
 
-const data = reactive({
+const form = useForm({
 	category_id: "",
 	name: "",
 	slug: "",
@@ -409,16 +410,16 @@ const data = reactive({
 	keywords: "",
 	status: "",
 	brand: "",
-	productModel: "",
+	product_model_prefix_id: "",
 });
 
-watch(data, (new_data) => (data.slug = slugfy(new_data.name)));
+watch(form, (new_data) => (form.slug = slugfy(new_data.name)));
 
 const categories_all_complete = computed(() => {
 	return [{ name: "Escolha a categoria", id: "" }, ...props.categories_all];
 });
 
 function submit() {
-	Inertia.post(route("product.store"), data);
+	Inertia.post(route("product.store"), form);
 }
 </script>
