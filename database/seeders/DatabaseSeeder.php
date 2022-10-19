@@ -20,19 +20,19 @@ class DatabaseSeeder extends Seeder
 	 */
 	public function run()
 	{
-		// foreach (['pdv', 'mdl', 'ca'] as $prefix) {
-		// 	ProductModelPrefix::create(['name' => $prefix]);
-		// }
+		foreach (['pdv', 'mdl', 'ca'] as $prefix) {
+			ProductModelPrefix::create(['name' => $prefix]);
+		}
 
-		// $allProductPrefixesIds = ProductModelPrefix::all()->pluck('id');
+		$allProductPrefixesIds = ProductModelPrefix::all()->pluck('id');
 
-		// Category::factory(5)
-		// 	->has(Product::factory(50)
-		// 		->has(ProductModel::factory()->state(
-		// 			['product_model_prefix_id' => $allProductPrefixesIds->random()]
-		// 		)
-		// 			->for(ProductModelPrefix::factory(3))))
-		// 	->create();
+		Category::factory(5)
+			->has(Product::factory(50)
+				->has(ProductModel::factory()->state(
+					['product_model_prefix_id' => $allProductPrefixesIds->random()]
+				)
+					->for(ProductModelPrefix::factory(3))))
+			->create();
 
 		// $allCategoryIds = Category::factory(10)->create()->pluck('id');
 			// for ($i = 0; $i < 100; $i++) {
@@ -54,10 +54,10 @@ class DatabaseSeeder extends Seeder
 		// User::factory(9)->create();
 
 		// Seed for production testing purposes
-		foreach (['pdv', 'mdl', 'ca'] as $prefix) {
-			ProductModelPrefix::create(['name' => $prefix]);
-		}
+		// foreach (['pdv', 'mdl', 'ca'] as $prefix) {
+		// 	ProductModelPrefix::create(['name' => $prefix]);
+		// }
 
-		Category::factory(5)->create();
+		// Category::factory(5)->create();
 	}
 }

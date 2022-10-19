@@ -8,9 +8,7 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Models\ProductModelPrefix;
 use App\Models\Category;
 use App\Models\Product;
-use App\Models\ProductModel;
 use App\Services\ProductModelService;
-use Illuminate\Support\Facades\Redirect;
 
 class ProductController extends Controller
 {
