@@ -1,5 +1,15 @@
 <template>
-	<div class="alert shadow-lg z-50 mt-3" :class="`alert-${variant}`">
+	<div class="alert shadow-lg z-50 mt-3"
+		:class="{
+			'alert-primary': variant === 'primary',
+			'alert-secondary': variant === 'secondary',
+			'alert-accent': variant === 'accent',
+			'alert-neutral': variant === 'neutral',
+			'alert-success': variant === 'success',
+			'alert-warning': variant === 'warning',
+			'alert-error': variant === 'error',
+			'alert-outline': outline,
+		}">
 		<div>
 			<component :is="icon" />
 			<div>
