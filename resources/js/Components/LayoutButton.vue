@@ -5,11 +5,13 @@
 			'btn-primary': variant === 'primary',
 			'btn-secondary': variant === 'secondary',
 			'btn-accent': variant === 'accent',
-			'btn-neutral': variant === 'neutral',
 			'btn-success': variant === 'success',
+			'btn-info': variant === 'info',
 			'btn-warning': variant === 'warning',
 			'btn-error': variant === 'error',
+			'btn-default': variant === 'default',
 			'btn-outline': outline,
+			'btn-link': link,
 		}"
 		:is="tag"
 		:type="type"
@@ -45,6 +47,10 @@ const props = defineProps({
 		default: "primary",
 	},
 	outline: {
+		type: Boolean,
+		default: false,
+	},
+	link: {
 		type: Boolean,
 		default: false,
 	},

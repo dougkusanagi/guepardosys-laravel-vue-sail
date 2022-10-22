@@ -4,7 +4,7 @@
 	<div class="flex">
 		<Sidenav />
 
-		<div class="w-full ml-24 md:ml-44">
+		<main class="w-full ml-24 md:ml-44">
 			<div class="px-6">
 				<AlertComponent
 					variant="error"
@@ -42,7 +42,7 @@
 				/>
 			</div>
 			<slot />
-		</div>
+		</main>
 	</div>
 </template>
 

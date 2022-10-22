@@ -358,6 +358,7 @@
 </template>
 
 <script setup>
+import { useForm } from "@inertiajs/inertia-vue3";
 import { watch, computed } from "vue";
 import { slugfy } from "@/helpers/string";
 import FormLabel from "@/Components/Form/FormLabel.vue";
@@ -376,7 +377,6 @@ import StackCircleIcon from "@/Icons/StackCircle.vue";
 import InformationCircleIcon from "@/Icons/InformationCircle.vue";
 import LayoutButton from "@/Components/LayoutButton.vue";
 import ChevronLeft from "@/Icons/ChevronLeft.vue";
-import { useForm } from "@inertiajs/inertia-vue3";
 
 const breadcrumbsLinks = [
 	{
@@ -428,26 +428,27 @@ const props = defineProps({
 });
 
 const form = useForm({
-	category_id: "",
-	name: "",
-	slug: "",
-	price: "",
-	description: "",
-	description_html: "",
-	availability: "",
-	stock_local: "",
-	stock_local_min: "",
-	stock_virtual: "",
-	barcode: "",
-	ncm: "",
-	weight: "",
-	height: "",
-	width: "",
-	length: "",
-	keywords: "",
-	status: "",
-	brand: "",
-	product_model_prefix_id: "",
+	category_id: props.product.category_id,
+	name: props.product.name,
+	slug: props.product.slug,
+	price: props.product.price,
+	description: props.product.description,
+	description_html: props.product.description_html,
+	availability: props.product.availability,
+	stock_local: props.product.stock_local,
+	stock_local_min: props.product.stock_local_min,
+	stock_virtual: props.product.stock_virtual,
+	barcode: props.product.barcode,
+	ncm: props.product.ncm,
+	weight: props.product.weight,
+	height: props.product.height,
+	width: props.product.width,
+	length: props.product.length,
+	keywords: props.product.keywords,
+	status: props.product.status,
+	brand: props.product.brand,
+	product_model_prefix_id: props.product.product_model.product_model_prefix.id,
+	product_model_digits: props.product.product_model.digits,
 });
 
 watch(form, (new_data) => (form.slug = slugfy(new_data.name)));
@@ -457,6 +458,6 @@ const categories_all_complete = computed(() => {
 });
 
 function submit() {
-	form.post(route("product.store"));
+	form.put(route("product.update", props.product.id));
 }
 </script>

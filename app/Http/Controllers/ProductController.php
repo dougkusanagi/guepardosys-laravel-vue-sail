@@ -15,7 +15,7 @@ class ProductController extends Controller
 	/**
 	 * Display a listing of the resource.
 	 *
-	 * @return \Illuminate\Http\Response
+     * @return \Inertia\ResponseFactory|\Inertia\Response
 	 */
 	public function index()
 	{
@@ -47,7 +47,7 @@ class ProductController extends Controller
 	/**
 	 * Show the form for creating a new resource.
 	 *
-	 * @return \Illuminate\Http\Response
+     * @return \Inertia\ResponseFactory|\Inertia\Response
 	 */
 	public function create()
 	{
@@ -91,14 +91,18 @@ class ProductController extends Controller
 	}
 
 	/**
-	 * Show the form for editing the specified resource.
-	 *
 	 * @param  \App\Models\Product  $product
-	 * @return \Illuminate\Http\Response
+     * @return \Inertia\ResponseFactory|\Inertia\Response
 	 */
 	public function edit(Product $product)
 	{
-		//
+		return inertia('Product/Edit', [
+			'product' => $product,
+			'product_model_prefixes' => ProductModelPrefix::all(),
+			'product_status_enum' => collect(ProductStatusEnum::asSelectArray())
+				->map(fn ($status, $index) => ['id' => $index, 'name' => $status]),
+			'categories_all' => Category::all(),
+		]);
 	}
 
 	/**
@@ -110,7 +114,16 @@ class ProductController extends Controller
 	 */
 	public function update(UpdateProductRequest $request, Product $product)
 	{
-		//
+		$product->update($request->validated());
+
+		ProductModelService::update($product);
+
+		return redirect()
+			->route('product.index')
+			->with('success', [
+				'title' => 'Parabéns!',
+				'message' => 'Produto atualizado com sucesso',
+			]);
 	}
 
 	/**
@@ -121,6 +134,13 @@ class ProductController extends Controller
 	 */
 	public function destroy(Product $product)
 	{
-		//
+		// dd($product->id);
+
+		$product->delete();
+
+		return back()->with('success', [
+			'title' => 'Parabéns!',
+			'message' => 'Produto removido com sucesso',
+		]);
 	}
 }

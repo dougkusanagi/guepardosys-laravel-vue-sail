@@ -45,7 +45,7 @@ const props = defineProps({
 	maxlength: [String, Number],
 	min: [String, Number],
 	minlength: [String, Number],
-	modelValue: String,
+	modelValue: [String, Number],
 	name: { type: String, default: "" },
 	placeholder: { type: String, default: "" },
 	readonly: Boolean,

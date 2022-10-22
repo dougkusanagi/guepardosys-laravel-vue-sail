@@ -90,13 +90,13 @@
 			</div>
 
 			<div
-				class="flex items-center bg-slate-50 text-slate-600 border-y p-3 dark:bg-[#11183C] dark:brightness-75 dark:border-none dark:text-slate-200"
+				class="flex items-center bg-slate-50 text-slate-600 border-y p-3 dark:bg-[#11183C] dark:brightness-75 dark:border-none dark:text-slate-200 px-6"
 			>
 				<!-- <input class="border-slate-300" type="checkbox" name="[]" /> -->
 
 				<div class="w-16 h-0 opacity-0 mx-2" alt="Produto"></div>
 
-				<span class="flex font-bold mx-3 cursor-pointer" @click="sort('name')">
+				<span class="flex font-bold cursor-pointer" @click="sortBy('name')">
 					<span
 						class="mr-1"
 						:class="route().params.order_by !== 'name' ? 'hidden' : ''"
@@ -110,7 +110,7 @@
 
 				<span
 					class="flex font-bold cursor-pointer ml-auto mr-4"
-					@click="sort('status')"
+					@click="sortBy('status')"
 				>
 					<span
 						class="mr-1"
@@ -122,6 +122,12 @@
 					</span>
 					Status
 				</span>
+
+				<div class="ml-4">
+					<button class="btn btn-square btn-xs opacity-0">
+						<Close />
+					</button>
+				</div>
 			</div>
 
 			<div
@@ -147,10 +153,16 @@
 							{{ product.category.name }}
 						</h3>
 
-						<h2 class="text-lg font-bold">{{ product.name }}</h2>
+						<h2 class="text-lg font-bold">
+							<Link
+								:href="route('product.edit', product.id)"
+								class="underline"
+								>{{ product.name }}</Link
+							>
+						</h2>
 					</div>
 
-					<div class="flex items-end">
+					<div class="flex">
 						<div
 							class="flex items-center mr-4"
 							:class="{
@@ -168,6 +180,16 @@
 								}"
 							></div>
 							{{ product_status_array[product.status] }}
+						</div>
+
+						<div class="flex items-center ml-4">
+							<Link
+								:href="route('product.destroy', product.id)"
+								class="btn btn-error btn-xs btn-square"
+								method="delete"
+							>
+								<Close />
+							</Link>
 						</div>
 					</div>
 				</div>
@@ -194,7 +216,6 @@ import { Inertia } from "@inertiajs/inertia";
 import { reactive, watch, computed } from "vue";
 import PlusIcon from "@/Icons/Plus.vue";
 import ArrowUp from "@/Icons/ArrowUp.vue";
-import MagnifyingGlass from "@/Icons/MagnifyingGlass.vue";
 import TabsFilterByStatusLink from "@/Components/TabsFilterByStatusLink.vue";
 import LayoutHeader from "@/Components/LayoutHeader.vue";
 import LayoutSection from "@/Components/LayoutSection.vue";
@@ -203,7 +224,7 @@ import FormSelect from "@/Components/Form/FormSelect.vue";
 import PaginationPerPage from "@/Components/PaginationPerPage.vue";
 import PaginationPages from "@/Components/PaginationPages.vue";
 import LayoutButton from "@/Components/LayoutButton.vue";
-import ChevronLeft from "@/Icons/ChevronLeft.vue";
+import Close from "../../Icons/Close.vue";
 
 const props = defineProps({
 	product_pages: Object,
@@ -211,7 +232,6 @@ const props = defineProps({
 	categories_all: Array,
 	product_status_array: Array,
 	product_status_all: Object,
-	page: String,
 	per_page: String,
 });
 
@@ -249,7 +269,7 @@ watch(
 	{ deep: true }
 );
 
-const sort = (field) => {
+const sortBy = (field) => {
 	if (queryParams.order_by === field) {
 		queryParams.direction = queryParams.direction === "asc" ? "desc" : "asc";
 	} else {

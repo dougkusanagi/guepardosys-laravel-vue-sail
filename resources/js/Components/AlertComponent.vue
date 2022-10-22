@@ -1,23 +1,31 @@
 <template>
-	<div class="alert shadow-lg z-50 mt-3"
+	<div
+		v-show="isVisible"
+		class="alert shadow-lg z-50 mt-3"
 		:class="{
 			'alert-primary': variant === 'primary',
 			'alert-secondary': variant === 'secondary',
 			'alert-accent': variant === 'accent',
-			'alert-neutral': variant === 'neutral',
 			'alert-success': variant === 'success',
+			'alert-info': variant === 'info',
 			'alert-warning': variant === 'warning',
 			'alert-error': variant === 'error',
-			'alert-outline': outline,
-		}">
+			'alert-default': variant === 'default',
+		}"
+	>
 		<div>
 			<component :is="icon" />
+
 			<div>
 				<h3 class="font-bold" v-text="title"></h3>
 
 				<div class="text-xs" v-if="message" v-text="message"></div>
 			</div>
 		</div>
+
+		<button @click="isVisible = false">
+			<Close />
+		</button>
 	</div>
 </template>
 
@@ -25,11 +33,16 @@
 import { computed } from "vue";
 import XCircle from "@/Icons/XCircle.vue";
 import CheckCircle from "@/Icons/CheckCircle.vue";
+import Close from "@/Icons/Close.vue";
 
 const props = defineProps({
+	isVisible: {
+		type: Boolean,
+		default: true,
+	},
 	variant: {
 		type: String,
-		default: "success",
+		default: "default",
 	},
 	title: {
 		type: String,

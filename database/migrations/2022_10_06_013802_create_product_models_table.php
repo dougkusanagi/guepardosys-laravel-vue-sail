@@ -17,7 +17,7 @@ return new class extends Migration
     {
         Schema::create('product_models', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Product::class)->constrained()->unique();
+            $table->foreignIdFor(Product::class)->unique()->constrained()->onDelete('cascade');
             $table->foreignIdFor(ProductModelPrefix::class)->constrained();
             $table->bigInteger('digits');
             $table->timestamps();

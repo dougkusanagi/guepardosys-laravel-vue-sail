@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateProductRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class UpdateProductRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +24,26 @@ class UpdateProductRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+		return [
+			'category_id' => 'nullable',
+			'name' => 'required',
+			'slug' => 'required',
+			'price' => 'required',
+			'description' => 'nullable',
+			'description_html' => 'nullable',
+			'stock_local' => 'nullable',
+			'stock_local_min' => 'nullable',
+			'stock_virtual' => 'nullable',
+			'barcode' => 'nullable',
+			'ncm' => 'nullable',
+			'weight' => 'nullable',
+			'height' => 'nullable',
+			'width' => 'nullable',
+			'length' => 'nullable',
+			'availability' => 'nullable',
+			'keywords' => 'nullable',
+			'status' => 'nullable',
+			'brand' => 'nullable',
+		];
     }
 }

@@ -11,6 +11,7 @@ class ProductModel extends Model
 	use HasFactory;
 
 	protected $guarded = [];
+	protected $with = ['productModelPrefix'];
 
 	public function product()
 	{

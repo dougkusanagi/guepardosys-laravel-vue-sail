@@ -16,6 +16,7 @@ class Product extends Model
 	public $perPage = "25";
 	protected $guarded = [];
 	// protected $fillable = ['category_id'];
+	protected $with = ['productModel'];
 
 
 	// protected static function boot()

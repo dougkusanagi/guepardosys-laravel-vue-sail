@@ -32,7 +32,7 @@ const props = defineProps({
 	disabled: Boolean,
 	id: { type: String, default: null },
 	label: { type: String, default: "" },
-	modelValue: String,
+	modelValue: [String, Number],
 	name: { type: String, default: "" },
 	placeholder: { type: String, default: "" },
 	readonly: Boolean,
