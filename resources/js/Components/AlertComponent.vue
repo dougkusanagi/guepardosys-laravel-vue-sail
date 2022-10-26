@@ -13,7 +13,7 @@
 			'alert-default': variant === 'default',
 		}"
 	>
-		<div>
+		<div class="gap-4">
 			<component :is="icon" />
 
 			<div>
@@ -31,7 +31,7 @@
 
 <script setup>
 import { computed } from "vue";
-import XCircle from "@/Icons/XCircle.vue";
+import ExclamationTriangle from "@/Icons/ExclamationTriangle.vue";
 import CheckCircle from "@/Icons/CheckCircle.vue";
 import Close from "@/Icons/Close.vue";
 
@@ -55,6 +55,6 @@ const props = defineProps({
 });
 
 // for this
-const icon_list = { success: CheckCircle, error: XCircle };
+const icon_list = { success: CheckCircle, error: ExclamationTriangle };
 const icon = computed(() => icon_list[props.variant]);
 </script>

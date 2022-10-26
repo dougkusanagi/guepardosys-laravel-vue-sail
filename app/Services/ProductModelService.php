@@ -5,15 +5,15 @@ namespace App\Services;
 use App\Models\Product;
 use App\Models\ProductModel;
 use App\Models\ProductModelPrefix;
+use Illuminate\Http\Request;
 
 class ProductModelService
 {
-	public static function register(Product $product)
+	public static function register(Request $request, Product $product)
 	{
-		$prefix_id = request('product_model_prefix_id');
+		$prefix_id = $request->product_model_prefix_id;
 		$product_model_prefix = ProductModelPrefix::findOrFail($prefix_id);
-
-		$digits = request('product_model_digits') ??
+		$digits = $request->product_model_digits ??
 			ProductModel::getNextProductModelDigit($product_model_prefix);
 
 		ProductModel::create([
@@ -23,10 +23,10 @@ class ProductModelService
 		]);
 	}
 
-	public static function update(Product $product)
+	public static function update(Request $request, Product $product)
 	{
 		$product->productModel()->delete();
 
-		self::register($product);
+		self::register($request, $product);
 	}
 }

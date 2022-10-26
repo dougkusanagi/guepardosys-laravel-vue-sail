@@ -34,6 +34,17 @@
 			<div class="w-full">
 				<LayoutSection id="section-images">
 					<template #header>Imagens</template>
+
+					<div class="">
+						<file-pond
+							name="files[]"
+							ref="pond"
+							label-idle="Arraste arquivos aqui..."
+							v-bind:allow-multiple="true"
+							accepted-file-types="image/jpeg, image/png, image/webp"
+							v-on:init="handleFilePondInit"
+						/>
+					</div>
 				</LayoutSection>
 
 				<LayoutSection id="section-basic-info">
@@ -359,6 +370,7 @@
 
 <script setup>
 import { watch, computed } from "vue";
+import { useForm } from "@inertiajs/inertia-vue3";
 import { slugfy } from "@/helpers/string";
 import FormLabel from "@/Components/Form/FormLabel.vue";
 import LayoutHeader from "@/Components/LayoutHeader.vue";
@@ -376,7 +388,11 @@ import StackCircleIcon from "@/Icons/StackCircle.vue";
 import InformationCircleIcon from "@/Icons/InformationCircle.vue";
 import LayoutButton from "@/Components/LayoutButton.vue";
 import ChevronLeft from "@/Icons/ChevronLeft.vue";
-import { useForm } from "@inertiajs/inertia-vue3";
+
+import vueFilePond, { setOptions } from "vue-filepond";
+import "filepond/dist/filepond.min.css";
+
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 
 const breadcrumbsLinks = [
 	{
@@ -425,6 +441,7 @@ const props = defineProps({
 	categories_all: Array,
 	product: Object,
 	errors: Object,
+	csrf_token: String,
 });
 
 const form = useForm({
@@ -450,13 +467,28 @@ const form = useForm({
 	product_model_prefix_id: "",
 });
 
+const FilePond = vueFilePond(
+	FilePondPluginFileValidateType
+);
+
+const handleFilePondInit = function () {
+	setOptions({
+		// chunkUploads: true,
+		server: {
+			// url: route('file.uploadTemporaryFile'),
+			url: "/filepond",
+			headers: {
+				"X-CSRF-TOKEN": props.csrf_token,
+			},
+		},
+	});
+};
+
 watch(form, (new_data) => (form.slug = slugfy(new_data.name)));
 
 const categories_all_complete = computed(() => {
 	return [{ name: "Escolha a categoria", id: "" }, ...props.categories_all];
 });
 
-function submit() {
-	form.post(route("product.store"));
-}
+const submit = () => form.post(route("product.store"));
 </script>

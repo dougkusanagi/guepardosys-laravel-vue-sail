@@ -34,6 +34,25 @@
 			<div class="w-full">
 				<LayoutSection id="section-images">
 					<template #header>Imagens</template>
+
+					<div class="">
+						<file-pond
+							name="filepond_files[]"
+							ref="pond"
+							label-idle="Arraste arquivos aqui..."
+							v-bind:allow-multiple="true"
+							accepted-file-types="image/jpeg, image/png, image/webp"
+							@init="handleFilePondInit"
+							@processfile="handleFilePondProcess"
+							@removefile="handleFilePondRemoveFile"
+						/>
+					</div>
+
+					<div class="flex gap-3">
+						<a href="#" v-for="image in props.images">
+							<img class="w-20 h-20 object-cover rounded-lg" :src="image" />
+						</a>
+					</div>
 				</LayoutSection>
 
 				<LayoutSection id="section-basic-info">
@@ -378,6 +397,11 @@ import InformationCircleIcon from "@/Icons/InformationCircle.vue";
 import LayoutButton from "@/Components/LayoutButton.vue";
 import ChevronLeft from "@/Icons/ChevronLeft.vue";
 
+import vueFilePond, { setOptions } from "vue-filepond";
+import "filepond/dist/filepond.min.css";
+
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+
 const breadcrumbsLinks = [
 	{
 		label: "Início",
@@ -425,6 +449,8 @@ const props = defineProps({
 	categories_all: Array,
 	product: Object,
 	errors: Object,
+	csrf_token: String,
+	images: [],
 });
 
 const form = useForm({
@@ -449,7 +475,34 @@ const form = useForm({
 	brand: props.product.brand,
 	product_model_prefix_id: props.product.product_model.product_model_prefix.id,
 	product_model_digits: props.product.product_model.digits,
+	filepond_files: [],
 });
+
+const FilePond = vueFilePond(FilePondPluginFileValidateType);
+
+const handleFilePondInit = function () {
+	setOptions({
+		chunkUploads: true,
+		credits: false,
+		server: {
+			// url: route('file.uploadTemporaryFile'),
+			url: "/filepond",
+			headers: {
+				"X-CSRF-TOKEN": props.csrf_token,
+			},
+		},
+	});
+};
+
+const handleFilePondProcess = function (error, file) {
+	// Set the server id from response
+	form.filepond_files.push(file.serverId);
+};
+
+const handleFilePondRemoveFile = function (error, file) {
+	// Remove the server id on file remove
+	form.filepond_files = [];
+};
 
 watch(form, (new_data) => (form.slug = slugfy(new_data.name)));
 

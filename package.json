@@ -23,6 +23,9 @@
         "@headlessui/vue": "^1.7.3",
         "@heroicons/vue": "v1",
         "daisyui": "^2.31.0",
-        "eslint": "^8.24.0"
+        "eslint": "^8.24.0",
+        "filepond": "^4.30.4",
+        "filepond-plugin-file-validate-type": "^1.2.8",
+        "vue-filepond": "^7.0.3"
     }
 }

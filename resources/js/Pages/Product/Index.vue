@@ -185,8 +185,9 @@
 						<div class="flex items-center ml-4">
 							<Link
 								:href="route('product.destroy', product.id)"
-								class="btn btn-error btn-xs btn-square"
+								class="btn btn-error btn-sm btn-outline btn-square"
 								method="delete"
+								as="button"
 							>
 								<Close />
 							</Link>

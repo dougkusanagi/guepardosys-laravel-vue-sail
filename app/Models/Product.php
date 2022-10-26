@@ -18,16 +18,6 @@ class Product extends Model
 	// protected $fillable = ['category_id'];
 	protected $with = ['productModel'];
 
-
-	// protected static function boot()
-	// {
-	// 	parent::boot();
-
-	// 	static::addGlobalScope('order', function (Builder $builder) {
-	// 		$builder->orderBy('name', 'asc');
-	// 	});
-	// }
-
 	public function category(): BelongsTo
 	{
 		return $this->belongsTo(Category::class);
