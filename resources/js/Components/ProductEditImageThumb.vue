@@ -4,7 +4,7 @@
 			class="flex flex-col w-20 h-20 absolute divide-y divide-slate-400 rounded-lg"
 		>
 			<Link
-				class="flex items-center justify-center w-full h-10 text-center bg-rose-700/70"
+				class="flex items-center justify-center w-full text-center bg-rose-700/70 rounded-t-lg"
 				:href="route('image.delete', { image: image, product: product.id })"
 				method="delete"
 				as="button"
@@ -12,7 +12,7 @@
 				<CloseCircle />
 			</Link>
 			<a
-				class="flex items-center justify-center w-full h-10 text-center bg-blue-900/0 hover:bg-blue-900/90 opacity-0 hover:opacity-100 transition-all"
+				class="flex items-center justify-center w-full h-full rounded-b-lg text-center bg-blue-900/0 hover:bg-blue-900/90 opacity-0 hover:opacity-100 transition-all"
 				href="#b"
 				@click="in_dev"
 			>

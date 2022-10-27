@@ -403,7 +403,11 @@ import vueFilePond, { setOptions } from "vue-filepond";
 import "filepond/dist/filepond.min.css";
 
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import ProductEditImageThumb from "@/Components/ProductEditImageThumb.vue";
+
+// Import image preview plugin styles
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
 
 const breadcrumbsLinks = [
 	{
@@ -483,7 +487,10 @@ const form = useForm({
 	filepond_files: [],
 });
 
-const FilePond = vueFilePond(FilePondPluginFileValidateType);
+const FilePond = vueFilePond(
+	FilePondPluginFileValidateType,
+	FilePondPluginImagePreview
+);
 
 const handleFilePondInit = function () {
 	setOptions({
