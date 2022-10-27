@@ -488,8 +488,8 @@ const form = useForm({
 });
 
 const FilePond = vueFilePond(
-	FilePondPluginFileValidateType,
-	FilePondPluginImagePreview
+	FilePondPluginFileValidateType
+	// FilePondPluginImagePreview,
 );
 
 const handleFilePondInit = function () {
