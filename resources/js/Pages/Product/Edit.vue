@@ -49,9 +49,11 @@
 					</div>
 
 					<div class="flex gap-3">
-						<a href="#" v-for="image in props.images">
-							<img class="w-20 h-20 object-cover rounded-lg" :src="image" />
-						</a>
+						<ProductEditImageThumb
+							v-for="image in props.images"
+							:image="image"
+							:product="product"
+						/>
 					</div>
 				</LayoutSection>
 
@@ -378,7 +380,7 @@
 
 <script setup>
 import { useForm } from "@inertiajs/inertia-vue3";
-import { watch, computed } from "vue";
+import { watch, computed, ref } from "vue";
 import { slugfy } from "@/helpers/string";
 import FormLabel from "@/Components/Form/FormLabel.vue";
 import LayoutHeader from "@/Components/LayoutHeader.vue";
@@ -401,6 +403,7 @@ import vueFilePond, { setOptions } from "vue-filepond";
 import "filepond/dist/filepond.min.css";
 
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+import ProductEditImageThumb from "@/Components/ProductEditImageThumb.vue";
 
 const breadcrumbsLinks = [
 	{
@@ -443,6 +446,8 @@ const sidenavScrolltoLinks = [
 	},
 ];
 
+const pond = ref(null);
+
 const props = defineProps({
 	product_model_prefixes: Array,
 	product_status_enum: Array,
@@ -450,7 +455,7 @@ const props = defineProps({
 	product: Object,
 	errors: Object,
 	csrf_token: String,
-	images: [],
+	images: Array,
 });
 
 const form = useForm({
@@ -482,10 +487,9 @@ const FilePond = vueFilePond(FilePondPluginFileValidateType);
 
 const handleFilePondInit = function () {
 	setOptions({
-		chunkUploads: true,
-		credits: false,
+		// chunkUploads: true,
+		credits: true,
 		server: {
-			// url: route('file.uploadTemporaryFile'),
 			url: "/filepond",
 			headers: {
 				"X-CSRF-TOKEN": props.csrf_token,
@@ -496,12 +500,16 @@ const handleFilePondInit = function () {
 
 const handleFilePondProcess = function (error, file) {
 	// Set the server id from response
-	form.filepond_files.push(file.serverId);
+	// form.filepond_files.push(file.serverId);
+	form.filepond_files.push({ id: file.id, serverId: file.serverId });
 };
 
 const handleFilePondRemoveFile = function (error, file) {
 	// Remove the server id on file remove
-	form.filepond_files = [];
+	// form.filepond_files = [];
+	form.filepond_files = form.filepond_files.filter(
+		(item) => item.id !== file.id
+	);
 };
 
 watch(form, (new_data) => (form.slug = slugfy(new_data.name)));
@@ -511,6 +519,17 @@ const categories_all_complete = computed(() => {
 });
 
 function submit() {
-	form.put(route("product.update", props.product.id));
+	form
+		.transform((data) => {
+			return {
+				...data,
+				filepond_files: data.filepond_files.map((item) => item.serverId), // Pluck only the serverIds
+			};
+		})
+		.put(route("product.update", props.product.id), {
+			onSuccess: () => {
+				pond.value.removeFiles();
+			},
+		});
 }
 </script>

@@ -98,14 +98,13 @@ class ProductController extends Controller
 	 */
 	public function edit(Product $product)
 	{
-		// dump(getProductImagePublicPaths($product));
 		return inertia('Product/Edit', [
 			'product' => $product,
 			'product_model_prefixes' => ProductModelPrefix::all(),
 			'product_status_enum' => collect(ProductStatusEnum::asSelectArray())
 				->map(fn ($status, $index) => ['id' => $index, 'name' => $status]),
 			'categories_all' => Category::all(),
-			'images' => getProductImagePublicPaths($product),
+			'images' => getProductImagesPublicPaths($product),
 		]);
 	}
 
@@ -127,21 +126,7 @@ class ProductController extends Controller
 			'message' => 'Produto atualizado com sucesso',
 		]);
 
-		return inertia('Product/Edit', [
-			'product' => $product,
-			'product_model_prefixes' => ProductModelPrefix::all(),
-			'product_status_enum' => collect(ProductStatusEnum::asSelectArray())
-				->map(fn ($status, $index) => ['id' => $index, 'name' => $status]),
-			'categories_all' => Category::all(),
-			'images' => getProductImagePublicPaths($product),
-		]);
-
-		// return redirect()
-		// 	->back()
-		// 	->with('success', [
-		// 		'title' => 'Parabéns!',
-		// 		'message' => 'Produto atualizado com sucesso',
-		// 	]);
+		return redirect()->route('product.edit', ['product' => $product->id]);
 	}
 
 	/**
