@@ -494,7 +494,6 @@ const FilePond = vueFilePond(
 
 const handleFilePondInit = function () {
 	setOptions({
-		// chunkUploads: true,
 		credits: true,
 		server: {
 			url: "/filepond",
@@ -506,14 +505,10 @@ const handleFilePondInit = function () {
 };
 
 const handleFilePondProcess = function (error, file) {
-	// Set the server id from response
-	// form.filepond_files.push(file.serverId);
 	form.filepond_files.push({ id: file.id, serverId: file.serverId });
 };
 
 const handleFilePondRemoveFile = function (error, file) {
-	// Remove the server id on file remove
-	// form.filepond_files = [];
 	form.filepond_files = form.filepond_files.filter(
 		(item) => item.id !== file.id
 	);

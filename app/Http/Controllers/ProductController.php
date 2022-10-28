@@ -72,6 +72,7 @@ class ProductController extends Controller
 	{
 		$product = Product::create($request->validated());
 		ProductModelService::register($request, $product);
+		ProductImageService::create($request, $product);
 
 		return redirect()
 			->route('product.index')

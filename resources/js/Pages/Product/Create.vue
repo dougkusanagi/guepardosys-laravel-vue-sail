@@ -37,12 +37,14 @@
 
 					<div class="">
 						<file-pond
-							name="files[]"
+							name="filepond_files[]"
 							ref="pond"
 							label-idle="Arraste arquivos aqui..."
 							v-bind:allow-multiple="true"
 							accepted-file-types="image/jpeg, image/png, image/webp"
-							v-on:init="handleFilePondInit"
+							@init="handleFilePondInit"
+							@processfile="handleFilePondProcess"
+							@removefile="handleFilePondRemoveFile"
 						/>
 					</div>
 				</LayoutSection>
@@ -369,7 +371,7 @@
 </template>
 
 <script setup>
-import { watch, computed } from "vue";
+import { watch, computed, ref } from "vue";
 import { useForm } from "@inertiajs/inertia-vue3";
 import { slugfy } from "@/helpers/string";
 import FormLabel from "@/Components/Form/FormLabel.vue";
@@ -435,6 +437,8 @@ const sidenavScrolltoLinks = [
 	},
 ];
 
+const pond = ref(null);
+
 const props = defineProps({
 	product_model_prefixes: Array,
 	product_status_enum: Array,
@@ -465,17 +469,18 @@ const form = useForm({
 	status: "",
 	brand: "",
 	product_model_prefix_id: "",
+	filepond_files: [],
 });
 
 const FilePond = vueFilePond(
 	FilePondPluginFileValidateType
+	// FilePondPluginImagePreview,
 );
 
 const handleFilePondInit = function () {
 	setOptions({
-		// chunkUploads: true,
+		credits: true,
 		server: {
-			// url: route('file.uploadTemporaryFile'),
 			url: "/filepond",
 			headers: {
 				"X-CSRF-TOKEN": props.csrf_token,
@@ -484,11 +489,30 @@ const handleFilePondInit = function () {
 	});
 };
 
+const handleFilePondProcess = function (error, file) {
+	form.filepond_files.push({ id: file.id, serverId: file.serverId });
+};
+
+const handleFilePondRemoveFile = function (error, file) {
+	form.filepond_files = form.filepond_files.filter(
+		(item) => item.id !== file.id
+	);
+};
+
 watch(form, (new_data) => (form.slug = slugfy(new_data.name)));
 
 const categories_all_complete = computed(() => {
 	return [{ name: "Escolha a categoria", id: "" }, ...props.categories_all];
 });
 
-const submit = () => form.post(route("product.store"));
+const submit = function () {
+	form
+		.transform((data) => {
+			return {
+				...data,
+				filepond_files: data.filepond_files.map((item) => item.serverId), // Pluck only the serverIds
+			};
+		})
+		.post(route("product.store"));
+};
 </script>
