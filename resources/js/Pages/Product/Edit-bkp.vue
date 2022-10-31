@@ -36,13 +36,15 @@
 					<template #header>Imagens</template>
 
 					<div class="">
-						<FilepondInput
-							ref="filepond_input_ref"
+						<file-pond
 							name="filepond_files[]"
+							ref="pond"
 							label-idle="Arraste arquivos aqui..."
 							v-bind:allow-multiple="true"
 							accepted-file-types="image/jpeg, image/png, image/webp"
-							:form="form"
+							@init="handleFilePondInit"
+							@processfile="handleFilePondProcess"
+							@removefile="handleFilePondRemoveFile"
 						/>
 					</div>
 
@@ -396,8 +398,14 @@ import StackCircleIcon from "@/Icons/StackCircle.vue";
 import InformationCircleIcon from "@/Icons/InformationCircle.vue";
 import LayoutButton from "@/Components/LayoutButton.vue";
 import ChevronLeft from "@/Icons/ChevronLeft.vue";
+
+import vueFilePond, { setOptions } from "vue-filepond";
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import ProductEditImageThumb from "@/Components/ProductEditImageThumb.vue";
-import FilepondInput from "@/Components/FilepondInput.vue";
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
+import "filepond/dist/filepond.min.css";
+
 
 const breadcrumbsLinks = [
 	{
@@ -440,6 +448,8 @@ const sidenavScrolltoLinks = [
 	},
 ];
 
+const pond = ref(null);
+
 const props = defineProps({
 	product_model_prefixes: Array,
 	product_status_enum: Array,
@@ -475,19 +485,51 @@ const form = useForm({
 	filepond_files: [],
 });
 
-const filepond_input_ref = ref(null);
+const FilePond = vueFilePond(
+	FilePondPluginFileValidateType
+	// FilePondPluginImagePreview,
+);
+
+const handleFilePondInit = function () {
+	setOptions({
+		credits: true,
+		server: {
+			url: "/filepond",
+			headers: {
+				"X-CSRF-TOKEN": props.csrf_token,
+			},
+		},
+	});
+};
+
+const handleFilePondProcess = function (error, file) {
+	form.filepond_files.push({ id: file.id, serverId: file.serverId });
+};
+
+const handleFilePondRemoveFile = function (error, file) {
+	form.filepond_files = form.filepond_files.filter(
+		(item) => item.id !== file.id
+	);
+};
+
+watch(form, (new_data) => (form.slug = slugfy(new_data.name)));
 
 const categories_all_complete = computed(() => {
 	return [{ name: "Escolha a categoria", id: "" }, ...props.categories_all];
 });
 
-watch(form, (new_data) => (form.slug = slugfy(new_data.name)));
-
 function submit() {
-	form.put(route("product.update", props.product.id), {
-		onSuccess: () => {
-			filepond_input_ref.value.filepond_ref.removeFiles();
-		},
-	});
+	form
+		.transform((data) => {
+			return {
+				...data,
+				filepond_files: data.filepond_files.map((item) => item.serverId), // Pluck only the serverIds
+			};
+		})
+		.put(route("product.update", props.product.id), {
+			onSuccess: () => {
+				pond.value.removeFiles();
+			},
+		});
 }
 </script>

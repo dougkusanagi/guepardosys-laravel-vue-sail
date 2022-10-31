@@ -36,21 +36,15 @@
 					<template #header>Imagens</template>
 
 					<div class="">
-						<FilepondInput
-							ref="filepond_input_ref"
+						<file-pond
 							name="filepond_files[]"
+							ref="pond"
 							label-idle="Arraste arquivos aqui..."
 							v-bind:allow-multiple="true"
 							accepted-file-types="image/jpeg, image/png, image/webp"
-							:form="form"
-						/>
-					</div>
-
-					<div class="flex gap-3">
-						<ProductEditImageThumb
-							v-for="image in props.images"
-							:image="image"
-							:product="product"
+							@init="handleFilePondInit"
+							@processfile="handleFilePondProcess"
+							@removefile="handleFilePondRemoveFile"
 						/>
 					</div>
 				</LayoutSection>
@@ -377,8 +371,8 @@
 </template>
 
 <script setup>
-import { useForm } from "@inertiajs/inertia-vue3";
 import { watch, computed, ref } from "vue";
+import { useForm } from "@inertiajs/inertia-vue3";
 import { slugfy } from "@/Helpers/string";
 import FormLabel from "@/Components/Form/FormLabel.vue";
 import LayoutHeader from "@/Components/LayoutHeader.vue";
@@ -396,8 +390,11 @@ import StackCircleIcon from "@/Icons/StackCircle.vue";
 import InformationCircleIcon from "@/Icons/InformationCircle.vue";
 import LayoutButton from "@/Components/LayoutButton.vue";
 import ChevronLeft from "@/Icons/ChevronLeft.vue";
-import ProductEditImageThumb from "@/Components/ProductEditImageThumb.vue";
-import FilepondInput from "@/Components/FilepondInput.vue";
+
+import vueFilePond, { setOptions } from "vue-filepond";
+import "filepond/dist/filepond.min.css";
+
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 
 const breadcrumbsLinks = [
 	{
@@ -440,6 +437,8 @@ const sidenavScrolltoLinks = [
 	},
 ];
 
+const pond = ref(null);
+
 const props = defineProps({
 	product_model_prefixes: Array,
 	product_status_enum: Array,
@@ -447,47 +446,73 @@ const props = defineProps({
 	product: Object,
 	errors: Object,
 	csrf_token: String,
-	images: Array,
 });
 
 const form = useForm({
-	category_id: props.product.category_id,
-	name: props.product.name,
-	slug: props.product.slug,
-	price: props.product.price,
-	description: props.product.description,
-	description_html: props.product.description_html,
-	availability: props.product.availability,
-	stock_local: props.product.stock_local,
-	stock_local_min: props.product.stock_local_min,
-	stock_virtual: props.product.stock_virtual,
-	barcode: props.product.barcode,
-	ncm: props.product.ncm,
-	weight: props.product.weight,
-	height: props.product.height,
-	width: props.product.width,
-	length: props.product.length,
-	keywords: props.product.keywords,
-	status: props.product.status,
-	brand: props.product.brand,
-	product_model_prefix_id: props.product.product_model.product_model_prefix.id,
-	product_model_digits: props.product.product_model.digits,
+	category_id: "",
+	name: "",
+	slug: "",
+	price: "",
+	description: "",
+	description_html: "",
+	availability: "",
+	stock_local: "",
+	stock_local_min: "",
+	stock_virtual: "",
+	barcode: "",
+	ncm: "",
+	weight: "",
+	height: "",
+	width: "",
+	length: "",
+	keywords: "",
+	status: "",
+	brand: "",
+	product_model_prefix_id: "",
 	filepond_files: [],
 });
 
-const filepond_input_ref = ref(null);
+const FilePond = vueFilePond(
+	FilePondPluginFileValidateType
+	// FilePondPluginImagePreview,
+);
+
+const handleFilePondInit = function () {
+	setOptions({
+		credits: true,
+		server: {
+			url: "/filepond",
+			headers: {
+				"X-CSRF-TOKEN": props.csrf_token,
+			},
+		},
+	});
+};
+
+const handleFilePondProcess = function (error, file) {
+	form.filepond_files.push({ id: file.id, serverId: file.serverId });
+};
+
+const handleFilePondRemoveFile = function (error, file) {
+	form.filepond_files = form.filepond_files.filter(
+		(item) => item.id !== file.id
+	);
+};
+
+watch(form, (new_data) => (form.slug = slugfy(new_data.name)));
 
 const categories_all_complete = computed(() => {
 	return [{ name: "Escolha a categoria", id: "" }, ...props.categories_all];
 });
 
-watch(form, (new_data) => (form.slug = slugfy(new_data.name)));
-
-function submit() {
-	form.put(route("product.update", props.product.id), {
-		onSuccess: () => {
-			filepond_input_ref.value.filepond_ref.removeFiles();
-		},
-	});
-}
+const submit = function () {
+	form
+		.transform((data) => {
+			return {
+				...data,
+				filepond_files: data.filepond_files.map((item) => item.serverId), // Pluck only the serverIds
+			};
+		})
+		.post(route("product.store"));
+};
 </script>

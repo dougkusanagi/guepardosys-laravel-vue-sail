@@ -12,10 +12,13 @@ class ProductImageController extends Controller
 	public function deleteImage(Request $request, Product $product)
 	{
 		ProductImageService::delete($request);
+		ProductImageService::sortAscending($product);
 
-		redirect()->route('product.edit', $product->id)->with('success', [
-			'title' => 'Parabéns!',
+		Session::flash('alert', [
+			'type' => 'success',
 			'message' => 'Imagem deletada com sucesso',
 		]);
+
+		redirect()->route('product.edit', $product->id);
 	}
 }

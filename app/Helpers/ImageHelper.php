@@ -22,12 +22,15 @@ if (!function_exists('getProductImagesPublicPaths')) {
 if (!function_exists('getProductImagesPath')) {
 	function getProductImagesPath(Product $product)
 	{
-		return public_path('storage' . DS . env('PRODUCT_IMAGES_ROOT') . DS . $product->id . DS);
+		return public_path('storage' . DS . env('PRODUCT_IMAGES_ROOT') . DS . $product->id);
 	}
 }
-
 if (!function_exists('getProductImagesAll')) {
-	function getProductImagesAll(Product $product)
+	/**
+	 * Get an array of absolute paths to product images files
+	 * @param Product $product
+	 */
+	function getProductImagesAll(Product $product): Array
 	{
 		return glob(getProductImagesPath($product) . DS . '*.' . env('PRODUCT_IMAGE_EXTENSIONS'), GLOB_BRACE);
 	}

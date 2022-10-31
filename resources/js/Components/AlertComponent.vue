@@ -1,7 +1,7 @@
 <template>
 	<div
 		v-show="isVisible"
-		class="alert shadow-lg z-50 mt-3"
+		class="alert min-w-[300px] shadow-lg z-50 mt-3"
 		:class="{
 			'alert-primary': variant === 'primary',
 			'alert-secondary': variant === 'secondary',
@@ -54,7 +54,6 @@ const props = defineProps({
 	},
 });
 
-// for this
 const icon_list = { success: CheckCircle, error: ExclamationTriangle };
 const icon = computed(() => icon_list[props.variant]);
 </script>

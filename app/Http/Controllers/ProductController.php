@@ -74,12 +74,13 @@ class ProductController extends Controller
 		ProductModelService::register($request, $product);
 		ProductImageService::create($request, $product);
 
-		return redirect()
-			->route('product.index')
-			->with('success', [
-				'title' => 'Parabéns!',
-				'message' => 'Produto cadastrado com sucesso',
-			]);
+		Session::flash('alert', [
+			'type' => 'success',
+			// 'title' => 'Parabéns!',
+			'message' => 'Produto cadastrado com sucesso',
+		]);
+
+		return redirect()->route('product.index');
 	}
 
 	/**
@@ -122,8 +123,9 @@ class ProductController extends Controller
 		ProductModelService::update($request, $product);
 		ProductImageService::create($request, $product);
 
-		Session::flash('success', [
-			'title' => 'Parabéns!',
+		Session::flash('alert', [
+			'type' => 'success',
+			// 'title' => 'Parabéns!',
 			'message' => 'Produto atualizado com sucesso',
 		]);
 
