@@ -19,36 +19,34 @@ class ProductImageService
 		}
 	}
 
-	public static function delete(Request $request)
+	public static function removeParameters($image) {
+		return parse_url($image)['path'];
+	}
+
+	private static function removeStorageFromPath(String $image_public_path): String
 	{
-		$array_dir = explode("/", $request->image);
+		$array_dir = explode('/', $image_public_path);
 		unset($array_dir[0]);
 		unset($array_dir[1]);
-		$image_dir = implode("/", $array_dir);
-
-		Storage::disk(config('filepond.disk', 'public'))->delete($image_dir);
+		return implode('/', $array_dir);
 	}
 
-	private static function renameAllImagesAsTemp(Product $product)
+	public static function delete(Request $request)
 	{
-		foreach (getProductImagesAll($product) as $image) {
-			[
-				'basename' => $basename,
-				'dirname' => $dirname
-			] = pathinfo($image);
-			$i = 0;
-			while (is_file($temp_name = $dirname . DS . "temp{$i}-{$basename}")) $i++;
-			rename($image, $temp_name);
-		}
+		$image_dir = self::removeStorageFromPath($request->image);
+		$clean_path = self::removeParameters($image_dir);
+		Storage::disk(config('filepond.disk', 'public'))->delete($clean_path);
 	}
 
-	public static function sortAscending(Product $product)
+	public static function renameAscending(Product $product)
 	{
-		self::renameAllImagesAsTemp($product);
-
-		foreach (getProductImagesAll($product) as $index => $image) {
-			['extension' => $extension, 'dirname' => $dirname] = pathinfo($image);
-			rename($image, $dirname . DS . "{$index}.{$extension}");
-		}
+		$image_list = collect(getProductImagesAll($product));
+		$image_list
+			->sort()				// sort ascending by filename
+			->values()			// reindex for renaming files again 0.jpg, 1.png, etc...
+			->each(function ($image, $index) {
+				['dirname' => $dirname, 'extension' => $extension] = pathinfo($image);
+				rename($image, $dirname . DS . "{$index}.{$extension}");
+			});
 	}
 }

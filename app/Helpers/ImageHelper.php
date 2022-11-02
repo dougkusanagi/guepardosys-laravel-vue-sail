@@ -2,6 +2,7 @@
 
 use App\Models\Product;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 if (!function_exists('getProductImagePaths')) {
 	function getProductImagePaths(Product $product, $disk = 'public')
@@ -14,7 +15,7 @@ if (!function_exists('getProductImagesPublicPaths')) {
 	function getProductImagesPublicPaths(Product $product, $disk = 'public')
 	{
 		return array_map(function ($image) {
-			return '/storage/' . $image;
+			return '/storage/' . $image . '?uuid=' . Str::uuid();
 		}, getProductImagePaths($product, $disk));
 	}
 }

@@ -12,7 +12,7 @@ class ProductImageController extends Controller
 	public function deleteImage(Request $request, Product $product)
 	{
 		ProductImageService::delete($request);
-		ProductImageService::sortAscending($product);
+		ProductImageService::renameAscending($product);
 
 		Session::flash('alert', [
 			'type' => 'success',

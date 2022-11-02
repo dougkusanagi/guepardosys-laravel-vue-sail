@@ -14,6 +14,7 @@
 					</LayoutButton>
 
 					<ButtonSave
+						form="form_create"
 						class="w-52 flex lg:hidden ml-4"
 						:disabled="form.processing"
 					/>
@@ -21,9 +22,10 @@
 			</template>
 		</LayoutHeader>
 
-		<form @submit.prevent="submit" class="flex lg:space-x-6">
+		<form id="form_create" @submit.prevent="submit" class="flex lg:space-x-6">
 			<SidenavScrollto>
-				<ButtonSave />
+				<ButtonSave :disabled="form.processing" />
+
 				<SidenavScrolltoLink
 					v-for="link in sidenavScrolltoLinks"
 					:link="link"

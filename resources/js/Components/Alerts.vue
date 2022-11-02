@@ -1,7 +1,7 @@
 <template>
-	<Transition
-		enter-from-class="transition duration-1000 opacity-0"
-		enter-top-class="transition duration-1000 opacity-100"
+	<TransitionGroup
+		leave-from-class="transition duration-1000 opacity-100"
+		leave-top-class="transition duration-1000 opacity-0"
 	>
 		<div
 			v-if="alerts.length"
@@ -15,7 +15,7 @@
 				:message="alert.message"
 			/>
 		</div>
-	</Transition>
+	</TransitionGroup>
 </template>
 
 <script setup>
