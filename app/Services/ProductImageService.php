@@ -19,7 +19,8 @@ class ProductImageService
 		}
 	}
 
-	public static function removeParameters($image) {
+	public static function removeParameters($image)
+	{
 		return parse_url($image)['path'];
 	}
 
